@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="52902adc-4be8-489f-9945-1c4c10980739" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/auth/AuthUserServiceApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/auth/config/DataInitializer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/auth/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/auth/controller/AuthController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/auth/controller/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/auth/entity/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/auth/entity/UserProfile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/auth/repository/UserProfileRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/auth/repository/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/auth/service/AuthService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/common/dto/ApiResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/common/dto/AuthRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/common/dto/AuthResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/common/dto/EquipmentQuoteRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/common/dto/EquipmentQuoteResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/common/dto/IncomeQuoteRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/common/dto/IncomeQuoteResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/common/dto/RegisterRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/common/dto/UserDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/common/enums/ClaimStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/common/enums/EquipmentCondition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/common/enums/IncidentType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/common/enums/PolicyStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/common/enums/ProjectStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/common/enums/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/common/enums/TerminationType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/common/security/JwtAuthenticationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/common/security/JwtUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/java/org/example/authuserservice/common/security/UserPrincipal.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/resources/AuthuserServiceApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHUSERService/src/main/resources/application.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/claim/ClaimServiceApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/claim/config/DataInitializer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/claim/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/claim/controller/ClaimController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/claim/dto/ReviewClaimRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/claim/dto/SubmitEquipmentClaimRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/claim/dto/SubmitIncomeClaimRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/claim/entity/EquipmentClaim.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/claim/entity/IncomeClaim.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/claim/repository/EquipmentClaimRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/claim/repository/IncomeClaimRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/claim/service/ClaimService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/client/PolicyClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/common/dto/ApiResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/common/dto/AuthRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/common/dto/AuthResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/common/dto/EquipmentQuoteRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/common/dto/EquipmentQuoteResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/common/dto/IncomeQuoteRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/common/dto/IncomeQuoteResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/common/dto/RegisterRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/common/dto/UserDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/common/enums/ClaimStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/common/enums/EquipmentCondition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/common/enums/IncidentType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/common/enums/PolicyStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/common/enums/ProjectStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/common/enums/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/common/enums/TerminationType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/common/security/JwtAuthenticationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/common/security/JwtUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/java/org/example/claimsservice/common/security/UserPrincipal.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/resources/ClaimsServiceApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/main/resources/application.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAIMSService/src/test/java/org/example/claimsservice/ClaimsServiceApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EUREKAserver/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EUREKAserver/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EUREKAserver/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EUREKAserver/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EUREKAserver/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EUREKAserver/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EUREKAserver/src/main/java/org/example/eurekaserver/EurekAserverApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EUREKAserver/src/main/resources/application.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EUREKAserver/src/test/java/org/example/eurekaserver/EurekAserverApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/PolicyServiceApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/client/ProjectClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/client/RiskClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/common/dto/ApiResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/common/dto/AuthRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/common/dto/AuthResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/common/dto/EquipmentQuoteRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/common/dto/EquipmentQuoteResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/common/dto/IncomeQuoteRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/common/dto/IncomeQuoteResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/common/dto/RegisterRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/common/dto/UserDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/common/enums/ClaimStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/common/enums/EquipmentCondition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/common/enums/IncidentType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/common/enums/PolicyStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/common/enums/ProjectStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/common/enums/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/common/enums/TerminationType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/common/security/JwtAuthenticationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/common/security/JwtUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/common/security/UserPrincipal.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/policy/config/DataInitializer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/policy/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/policy/controller/PolicyController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/policy/dto/IssueEquipmentPolicyRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/policy/dto/IssueIncomeAssurancePolicyRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/policy/entity/EquipmentPolicy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/policy/entity/EquipmentPolicyItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/policy/entity/IncomeAssurancePolicy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/policy/repository/EquipmentPolicyRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/policy/repository/IncomeAssurancePolicyRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/java/org/example/policyservice/policy/service/PolicyService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/main/resources/application.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/POLICYService/src/test/java/org/example/policyservice/PolicyServiceApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/ProjectEquipmentServiceApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/common/dto/ApiResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/common/dto/AuthRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/common/dto/AuthResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/common/dto/EquipmentQuoteRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/common/dto/EquipmentQuoteResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/common/dto/IncomeQuoteRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/common/dto/IncomeQuoteResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/common/dto/RegisterRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/common/dto/UserDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/common/enums/ClaimStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/common/enums/EquipmentCondition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/common/enums/IncidentType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/common/enums/PolicyStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/common/enums/ProjectStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/common/enums/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/common/enums/TerminationType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/common/security/JwtAuthenticationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/common/security/JwtUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/common/security/UserPrincipal.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/project/config/DataInitializer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/project/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/project/controller/ProjectController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/project/dto/AddEquipmentRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/project/dto/CreateProjectRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/project/dto/HandoverRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/project/dto/ProjectDetailsDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/project/dto/ReturnEquipmentRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/project/entity/Client.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/project/entity/Equipment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/project/entity/EquipmentHandover.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/project/entity/Project.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/project/entity/ProjectAgreement.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/project/repository/ClientRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/project/repository/EquipmentHandoverRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/project/repository/EquipmentRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/project/repository/ProjectAgreementRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/project/repository/ProjectRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/project/service/AgreementAnalysisService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/java/org/example/projectequipmentservice/project/service/ProjectService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/main/resources/application.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROJECTEQUIPMENTService/src/test/java/org/example/projectequipmentservice/ProjectequipmentServiceApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/RiskUnderwritingServiceApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/common/dto/ApiResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/common/dto/AuthRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/common/dto/AuthResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/common/dto/EquipmentQuoteRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/common/dto/EquipmentQuoteResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/common/dto/IncomeQuoteRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/common/dto/IncomeQuoteResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/common/dto/RegisterRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/common/dto/UserDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/common/enums/ClaimStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/common/enums/EquipmentCondition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/common/enums/IncidentType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/common/enums/PolicyStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/common/enums/ProjectStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/common/enums/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/common/enums/TerminationType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/common/security/JwtAuthenticationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/common/security/JwtUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/common/security/UserPrincipal.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/risk/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/risk/controller/RiskController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/risk/service/EquipmentRiskRatingService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/java/org/example/riskunderwritingservice/risk/service/IncomeUnderwritingService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/main/resources/application.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RISKUNDERWRITINGservice/src/test/java/org/example/riskunderwritingservice/RiskunderwritinGserviceApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/angular.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/core/gaurds/authGaurd.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/core/gaurds/roleGaurd.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles.css" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="3JrN1scLgpv4DY1O3d4hu221ktg" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.240" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.29346.240" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="52902adc-4be8-489f-9945-1c4c10980739" name="Changes" comment="" />
+      <created>1790415026277</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1790415026277</updated>
+      <workItem from="1790415036095" duration="2590000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
