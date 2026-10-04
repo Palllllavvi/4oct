@@ -1,0 +1,323 @@
+<div class="claims-page-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-titles">
+      <h1 class="page-title">Claims Management</h1>
+      <p class="page-subtitle">Track, file, investigate, and approve equipment and income protection claims</p>
+    </div>
+    <div class="header-actions">
+      @if (isFreelancer) {
+        <a mat-stroked-button color="warn" routerLink="/claims/equipment/new" class="action-btn">
+          <mat-icon>report_problem</mat-icon>
+          <span>Claim Equipment Damage</span>
+        </a>
+        <a mat-raised-button color="primary" routerLink="/claims/income/new" class="action-btn">
+          <mat-icon>monetization_on</mat-icon>
+          <span>Claim Income Protection</span>
+        </a>
+      }
+    </div>
+  </div>
+
+  <!-- KPI Grid -->
+  <div class="kpi-grid">
+    <mat-card class="kpi-card">
+      <div class="kpi-icon-wrap icon-blue">
+        <mat-icon>description</mat-icon>
+      </div>
+      <div class="kpi-details">
+        <span class="kpi-label">Total Claims</span>
+        <span class="kpi-value">{{ totalClaimsCount }}</span>
+      </div>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <div class="kpi-icon-wrap icon-amber">
+        <mat-icon>pending_actions</mat-icon>
+      </div>
+      <div class="kpi-details">
+        <span class="kpi-label">Under Investigation</span>
+        <span class="kpi-value">{{ underReviewCount }}</span>
+      </div>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <div class="kpi-icon-wrap icon-green">
+        <mat-icon>task_alt</mat-icon>
+      </div>
+      <div class="kpi-details">
+        <span class="kpi-label">Claims Approved</span>
+        <span class="kpi-value">{{ approvedCount }}</span>
+      </div>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <div class="kpi-icon-wrap icon-purple">
+        <mat-icon>paid</mat-icon>
+      </div>
+      <div class="kpi-details">
+        <span class="kpi-label">Total Disbursed</span>
+        <span class="kpi-value">{{ settledAmountTotal | currency:'USD':'symbol':'1.0-0' }}</span>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- Tabs for Equipment & Income Claims -->
+  <mat-card class="tabs-card">
+    <mat-tab-group animationDuration="200ms" color="primary">
+      <!-- Equipment Claims Tab -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">photo_camera</mat-icon>
+          <span>Equipment Claims ({{ equipmentDataSource.data.length }})</span>
+        </ng-template>
+
+        <div class="tab-content">
+          <app-data-table-wrapper
+            title="Equipment Claims Directory"
+            subtitle="Loss and damage claims filed against equipment policies"
+            [loading]="isLoading"
+            [errorMessage]="errorMessage"
+            (searchChanged)="applyEquipmentFilter($event)"
+            (refreshClicked)="loadAllClaims()"
+          >
+            <table mat-table [dataSource]="equipmentDataSource" #eqSort="matSort" matSort class="claim-table">
+              <!-- Claim Number -->
+              <ng-container matColumnDef="claimNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Claim #</th>
+                <td mat-cell *matCellDef="let claim">
+                  <div class="claim-num-cell">
+                    <mat-icon class="claim-icon">report_problem</mat-icon>
+                    <code>{{ claim.claimNumber }}</code>
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Policy Number -->
+              <ng-container matColumnDef="policyNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Policy #</th>
+                <td mat-cell *matCellDef="let claim">
+                  <span class="policy-tag">{{ claim.policyNumber }}</span>
+                </td>
+              </ng-container>
+
+              <!-- Equipment Involved -->
+              <ng-container matColumnDef="equipment">
+                <th mat-header-cell *matHeaderCellDef>Equipment / Asset</th>
+                <td mat-cell *matCellDef="let claim">
+                  <div class="detail-cell">
+                    <strong>{{ claim.equipmentName || 'Asset #' + claim.equipmentId }}</strong>
+                    <span class="sub-text">{{ claim.incidentLocation || 'Location Unspecified' }}</span>
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Incident Peril -->
+              <ng-container matColumnDef="incident">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Peril & Date</th>
+                <td mat-cell *matCellDef="let claim">
+                  <div class="detail-cell">
+                    <span class="peril-badge">{{ claim.incidentType }}</span>
+                    <span class="sub-text">{{ claim.incidentDate | date:'mediumDate' }}</span>
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Claimed Amount -->
+              <ng-container matColumnDef="claimedAmount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Claimed</th>
+                <td mat-cell *matCellDef="let claim">
+                  <span class="val-claimed">{{ claim.claimedAmount | currency:'USD':'symbol':'1.0-0' }}</span>
+                </td>
+              </ng-container>
+
+              <!-- Approved Amount -->
+              <ng-container matColumnDef="approvedAmount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved</th>
+                <td mat-cell *matCellDef="let claim">
+                  <span class="val-approved">
+                    {{ claim.approvedAmount ? (claim.approvedAmount | currency:'USD':'symbol':'1.0-0') : '-' }}
+                  </span>
+                </td>
+              </ng-container>
+
+              <!-- Status -->
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                <td mat-cell *matCellDef="let claim">
+                  <span class="status-badge" [ngClass]="getStatusClass(claim.status)">
+                    {{ claim.status }}
+                  </span>
+                </td>
+              </ng-container>
+
+              <!-- Actions -->
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let claim">
+                  <div class="actions-cell">
+                    <a mat-button color="primary" [routerLink]="['/claims/equipment', claim.id]" class="view-btn">
+                      Details
+                    </a>
+                    @if (canReview && claim.status !== 'APPROVED' && claim.status !== 'SETTLED') {
+                      <a mat-stroked-button color="accent" [routerLink]="['/claims/equipment', claim.id, 'review']" class="review-btn">
+                        Assess
+                      </a>
+                    }
+                  </div>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="equipmentColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: equipmentColumns"></tr>
+
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" [attr.colspan]="equipmentColumns.length">
+                  @if (!isLoading) {
+                    <app-empty-state
+                      icon="devices_other"
+                      title="No Equipment Claims"
+                      description="No equipment damage or loss claims match your filter or are recorded yet."
+                    ></app-empty-state>
+                  }
+                </td>
+              </tr>
+            </table>
+
+            <div table-footer>
+              <mat-paginator #eqPaginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons aria-label="Select page of equipment claims"></mat-paginator>
+            </div>
+          </app-data-table-wrapper>
+        </div>
+      </mat-tab>
+
+      <!-- Income Claims Tab -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">monetization_on</mat-icon>
+          <span>Income Claims ({{ incomeDataSource.data.length }})</span>
+        </ng-template>
+
+        <div class="tab-content">
+          <app-data-table-wrapper
+            title="Income Claims Directory"
+            subtitle="Income assurance breach and insolvency claims"
+            [loading]="isLoading"
+            [errorMessage]="errorMessage"
+            (searchChanged)="applyIncomeFilter($event)"
+            (refreshClicked)="loadAllClaims()"
+          >
+            <table mat-table [dataSource]="incomeDataSource" #incSort="matSort" matSort class="claim-table">
+              <!-- Claim Number -->
+              <ng-container matColumnDef="claimNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Claim #</th>
+                <td mat-cell *matCellDef="let claim">
+                  <div class="claim-num-cell">
+                    <mat-icon class="claim-icon income-icon">monetization_on</mat-icon>
+                    <code>{{ claim.claimNumber }}</code>
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Policy Number -->
+              <ng-container matColumnDef="policyNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Policy #</th>
+                <td mat-cell *matCellDef="let claim">
+                  <span class="policy-tag">{{ claim.policyNumber }}</span>
+                </td>
+              </ng-container>
+
+              <!-- Freelancer -->
+              <ng-container matColumnDef="freelancer">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Claimant</th>
+                <td mat-cell *matCellDef="let claim">
+                  <div class="detail-cell">
+                    <strong>{{ claim.freelancerName || 'User #' + claim.userId }}</strong>
+                    <span class="sub-text">{{ claim.contractingClientName || 'Client Unspecified' }}</span>
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Termination Peril -->
+              <ng-container matColumnDef="termination">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Cause</th>
+                <td mat-cell *matCellDef="let claim">
+                  <div class="detail-cell">
+                    <span class="peril-badge">{{ claim.terminationType }}</span>
+                    <span class="sub-text">{{ claim.terminationDate | date:'mediumDate' }}</span>
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Claimed Amount -->
+              <ng-container matColumnDef="claimedAmount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Claimed</th>
+                <td mat-cell *matCellDef="let claim">
+                  <span class="val-claimed">
+                    {{ claim.totalBenefitClaimed ? (claim.totalBenefitClaimed | currency:'USD':'symbol':'1.0-0') : (claim.monthlyBenefitClaimed * claim.benefitMonthsClaimed | currency:'USD':'symbol':'1.0-0') }}
+                  </span>
+                </td>
+              </ng-container>
+
+              <!-- Approved Amount -->
+              <ng-container matColumnDef="approvedAmount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved</th>
+                <td mat-cell *matCellDef="let claim">
+                  <span class="val-approved">
+                    {{ claim.approvedBenefitAmount ? (claim.approvedBenefitAmount | currency:'USD':'symbol':'1.0-0') : '-' }}
+                  </span>
+                </td>
+              </ng-container>
+
+              <!-- Status -->
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                <td mat-cell *matCellDef="let claim">
+                  <span class="status-badge" [ngClass]="getStatusClass(claim.status)">
+                    {{ claim.status }}
+                  </span>
+                </td>
+              </ng-container>
+
+              <!-- Actions -->
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let claim">
+                  <div class="actions-cell">
+                    <a mat-button color="primary" [routerLink]="['/claims/income', claim.id]" class="view-btn">
+                      Details
+                    </a>
+                    @if (canReview && claim.status !== 'APPROVED' && claim.status !== 'SETTLED') {
+                      <a mat-stroked-button color="accent" [routerLink]="['/claims/income', claim.id, 'review']" class="review-btn">
+                        Assess
+                      </a>
+                    }
+                  </div>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="incomeColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: incomeColumns"></tr>
+
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" [attr.colspan]="incomeColumns.length">
+                  @if (!isLoading) {
+                    <app-empty-state
+                      icon="volunteer_activism"
+                      title="No Income Claims"
+                      description="No income assurance claims match your filter or are recorded yet."
+                    ></app-empty-state>
+                  }
+                </td>
+              </tr>
+            </table>
+
+            <div table-footer>
+              <mat-paginator #incPaginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons aria-label="Select page of income claims"></mat-paginator>
+            </div>
+          </app-data-table-wrapper>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+</div>

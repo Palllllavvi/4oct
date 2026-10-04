@@ -1,0 +1,54 @@
+.dashboard-root-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.admin-perspective-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background-color: #f1f5f9;
+  border-radius: 10px;
+  border: 1px dashed #cbd5e1;
+}
+
+.perspective-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.preview-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: #64748b;
+}
+
+.perspective-actions {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.mode-btn {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.65rem;
+  height: 30px;
+  border-radius: 6px;
+  color: #64748b;
+}
+
+.mode-btn.active-mode {
+  background-color: #2563eb;
+  color: #ffffff;
+  font-weight: 600;
+}

@@ -1,0 +1,108 @@
+<div class="role-dashboard">
+  <!-- Role Header -->
+  <div class="dashboard-header-card">
+    <div class="header-left">
+      <div class="role-icon-badge assessor-theme">
+        <mat-icon>fact_check</mat-icon>
+      </div>
+      <div>
+        <h1 class="header-title">Claims Assessment Center</h1>
+        <p class="header-subtitle">
+          Loss verification, equipment damage appraisal, and settlement determination
+        </p>
+      </div>
+    </div>
+    <div class="header-right">
+      <a mat-raised-button color="primary" routerLink="/claims" class="action-btn">
+        <mat-icon>rate_review</mat-icon>
+        <span>Review Queue</span>
+      </a>
+    </div>
+  </div>
+
+  @if (loading) {
+    <div class="loading-state">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span>Loading claim logs & adjudications...</span>
+    </div>
+  } @else {
+    <!-- Assessor Cards: Pending Claims, Approved Claims, Rejected Claims -->
+    <div class="metrics-grid">
+      <!-- Pending Claims Card -->
+      <mat-card class="metric-card card-amber">
+        <div class="metric-icon-box bg-amber">
+          <mat-icon>pending_actions</mat-icon>
+        </div>
+        <div class="metric-details">
+          <span class="metric-label">Pending Claims</span>
+          <span class="metric-value">{{ stats.pendingClaims }}</span>
+          <span class="metric-hint">Awaiting inspection & triage</span>
+        </div>
+        <a mat-button color="primary" routerLink="/claims" class="card-link">Review Pending &rarr;</a>
+      </mat-card>
+
+      <!-- Approved Claims Card -->
+      <mat-card class="metric-card card-emerald">
+        <div class="metric-icon-box bg-emerald">
+          <mat-icon>check_circle</mat-icon>
+        </div>
+        <div class="metric-details">
+          <span class="metric-label">Approved Claims</span>
+          <span class="metric-value">{{ stats.approvedClaims }}</span>
+          <span class="metric-hint">Validated for payout transfer</span>
+        </div>
+        <a mat-button color="primary" routerLink="/claims" class="card-link">View Approved &rarr;</a>
+      </mat-card>
+
+      <!-- Rejected Claims Card -->
+      <mat-card class="metric-card card-rose">
+        <div class="metric-icon-box bg-rose">
+          <mat-icon>cancel</mat-icon>
+        </div>
+        <div class="metric-details">
+          <span class="metric-label">Rejected Claims</span>
+          <span class="metric-value">{{ stats.rejectedClaims }}</span>
+          <span class="metric-hint">Ineligible / documentation gap</span>
+        </div>
+        <a mat-button color="primary" routerLink="/claims" class="card-link">View Rejected &rarr;</a>
+      </mat-card>
+    </div>
+
+    <!-- Assessment Queue Insights -->
+    <div class="workflow-cards-grid">
+      <mat-card class="workflow-card">
+        <mat-card-header>
+          <div mat-card-avatar class="workflow-avatar bg-amber">
+            <mat-icon>camera_enhance</mat-icon>
+          </div>
+          <mat-card-title>Evidence Appraisal</mat-card-title>
+          <mat-card-subtitle>Image verification & serial checks</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="workflow-desc">
+          Compare uploaded damage photos against the policy inventory manifest to determine whether repair or replacement applies.
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions align="end">
+          <a mat-stroked-button color="primary" routerLink="/claims">Assess Proof</a>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="workflow-card">
+        <mat-card-header>
+          <div mat-card-avatar class="workflow-avatar bg-emerald">
+            <mat-icon>payments</mat-icon>
+          </div>
+          <mat-card-title>Payout Authorization</mat-card-title>
+          <mat-card-subtitle>Settlement computation</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="workflow-desc">
+          Apply deductibles and maximum policy limits to calculate the final approved disbursement for affected freelancers.
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions align="end">
+          <a mat-stroked-button color="primary" routerLink="/claims">Authorize Payout</a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  }
+</div>

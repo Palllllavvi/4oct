@@ -1,0 +1,187 @@
+<div class="policy-page-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-titles">
+      <h1 class="page-title">Equipment Insurance Policies</h1>
+      <p class="page-subtitle">Track project hardware coverage, terms, and active coverage underwriting</p>
+    </div>
+    <div class="header-actions">
+      @if (canIssuePolicy) {
+        <a mat-raised-button color="primary" routerLink="/policies/equipment/issue" class="action-btn">
+          <mat-icon>add_moderator</mat-icon>
+          <span>Issue Equipment Policy</span>
+        </a>
+      }
+    </div>
+  </div>
+
+  <!-- KPI Metrics Cards -->
+  <div class="kpi-grid">
+    <mat-card class="kpi-card">
+      <div class="kpi-icon-wrap icon-blue">
+        <mat-icon>security</mat-icon>
+      </div>
+      <div class="kpi-details">
+        <span class="kpi-label">Total Policies</span>
+        <span class="kpi-value">{{ totalPolicies }}</span>
+      </div>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <div class="kpi-icon-wrap icon-green">
+        <mat-icon>account_balance</mat-icon>
+      </div>
+      <div class="kpi-details">
+        <span class="kpi-label">Total Insured Value</span>
+        <span class="kpi-value">{{ totalInsuredValue | currency:'USD':'symbol':'1.0-0' }}</span>
+      </div>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <div class="kpi-icon-wrap icon-purple">
+        <mat-icon>paid</mat-icon>
+      </div>
+      <div class="kpi-details">
+        <span class="kpi-label">Underwritten Premium</span>
+        <span class="kpi-value">{{ totalPremium | currency:'USD':'symbol':'1.0-0' }}</span>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- Table Wrapper Component -->
+  <app-data-table-wrapper
+    title="Underwritten Policies"
+    subtitle="All active and historical equipment policies"
+    [loading]="isLoading"
+    [errorMessage]="errorMessage"
+    (searchChanged)="applyFilter($event)"
+    (refreshClicked)="loadPolicies()"
+  >
+    <div table-actions>
+      <a mat-button routerLink="/policies/income">Switch to Income Policies &rarr;</a>
+    </div>
+
+    <!-- Table -->
+    <table mat-table [dataSource]="dataSource" matSort class="policy-table">
+      <!-- Policy Number Column -->
+      <ng-container matColumnDef="policyNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Policy #</th>
+        <td mat-cell *matCellDef="let policy">
+          <div class="policy-num-cell">
+            <mat-icon class="policy-icon">verified_user</mat-icon>
+            <code>{{ policy.policyNumber }}</code>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Project Column -->
+      <ng-container matColumnDef="project">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Project</th>
+        <td mat-cell *matCellDef="let policy">
+          <div class="project-cell">
+            <strong>{{ policy.projectName || 'Project #' + policy.projectId }}</strong>
+            <span class="sub-text">Project ID: {{ policy.projectId }}</span>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Client Column -->
+      <ng-container matColumnDef="client">
+        <th mat-header-cell *matHeaderCellDef>Client</th>
+        <td mat-cell *matCellDef="let policy">
+          <div class="client-cell">
+            <span>{{ policy.clientName || 'N/A' }}</span>
+            @if (policy.clientCompanyName) {
+              <span class="sub-text">{{ policy.clientCompanyName }}</span>
+            }
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Insured Value Column -->
+      <ng-container matColumnDef="insuredValue">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Insured Value</th>
+        <td mat-cell *matCellDef="let policy">
+          <span class="val-bold">{{ policy.insuredValue | currency:'USD':'symbol':'1.0-0' }}</span>
+        </td>
+      </ng-container>
+
+      <!-- Premium Column -->
+      <ng-container matColumnDef="premium">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Premium</th>
+        <td mat-cell *matCellDef="let policy">
+          <span class="premium-text">{{ policy.premium | currency:'USD':'symbol':'1.0-2' }}</span>
+        </td>
+      </ng-container>
+
+      <!-- Dates Column -->
+      <ng-container matColumnDef="dates">
+        <th mat-header-cell *matHeaderCellDef>Term Duration</th>
+        <td mat-cell *matCellDef="let policy">
+          <span class="dates-text">
+            {{ policy.startDate | date:'shortDate' }} - {{ policy.endDate | date:'shortDate' }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let policy">
+          <span class="status-badge" [ngClass]="getStatusClass(policy.status)">
+            {{ policy.status }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let policy">
+          @if (policy.status === 'ACTIVE' && canFileClaim) {
+            <a
+              mat-stroked-button
+              color="warn"
+              class="claim-action-btn"
+              [routerLink]="['/claims/equipment/submit']"
+              [queryParams]="{ policyNumber: policy.policyNumber, equipmentName: (policy.items && policy.items.length > 0) ? policy.items[0].equipmentName : '' }"
+              matTooltip="File an insurance claim against this active policy"
+            >
+              <mat-icon>report_problem</mat-icon>
+              <span>Claim</span>
+            </a>
+          } @else if (policy.status === 'CLAIMED') {
+            <span class="claimed-badge">
+              <mat-icon>check_circle</mat-icon>
+              <span>Claimed</span>
+            </span>
+          } @else {
+            <span class="text-muted">—</span>
+          }
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+          @if (!isLoading) {
+            <app-empty-state
+              icon="security"
+              title="No Equipment Policies Found"
+              description="No equipment policies match your criteria or are currently active."
+              [actionLabel]="canIssuePolicy ? 'Issue First Policy' : undefined"
+              actionIcon="add_moderator"
+              (actionClicked)="canIssuePolicy && null"
+            ></app-empty-state>
+          }
+        </td>
+      </tr>
+    </table>
+
+    <div table-footer>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons aria-label="Select page of policies"></mat-paginator>
+    </div>
+  </app-data-table-wrapper>
+</div>

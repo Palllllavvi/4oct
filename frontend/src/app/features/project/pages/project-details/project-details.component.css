@@ -1,0 +1,558 @@
+.project-details-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Loading & Error */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1rem;
+  color: #64748b;
+  gap: 1rem;
+}
+
+.error-banner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.error-banner mat-icon {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.error-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+/* Top Nav */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.back-link {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+/* Header Card */
+.project-header-card {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #f8fafc;
+  padding: 2rem;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.badge-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.status-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+}
+
+.badge-draft {
+  background-color: #475569;
+  color: #f8fafc;
+}
+
+.badge-quote {
+  background-color: #f59e0b;
+  color: #ffffff;
+}
+
+.badge-insured {
+  background-color: #10b981;
+  color: #ffffff;
+}
+
+.badge-completed {
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+.badge-closed {
+  background-color: #94a3b8;
+  color: #ffffff;
+}
+
+.policy-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.policy-chip mat-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.project-title {
+  margin: 0;
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.project-desc {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.95rem;
+  color: #94a3b8;
+  max-width: 800px;
+  line-height: 1.5;
+}
+
+.header-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: #cbd5e1;
+}
+
+.meta-item mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: #60a5fa;
+}
+
+.header-action-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-action-toolbar button {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.header-action-toolbar button:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* Metrics Grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.metric-card {
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+}
+
+.avatar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: #ffffff;
+}
+
+.client-icon {
+  background-color: #3b82f6;
+}
+
+.custody-icon {
+  background-color: #8b5cf6;
+}
+
+.gear-icon {
+  background-color: #059669;
+}
+
+.metric-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding-top: 0.75rem;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+}
+
+.info-label {
+  color: #64748b;
+}
+
+.info-val {
+  color: #0f172a;
+  font-weight: 500;
+}
+
+.val-highlight {
+  font-weight: 700;
+  color: #059669;
+  font-size: 1rem;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+/* Section Cards */
+.section-card {
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.section-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+
+.section-icon {
+  font-size: 26px;
+  width: 26px;
+  height: 26px;
+  color: #2563eb;
+}
+
+.section-content {
+  padding: 1.5rem;
+}
+
+.p-0 {
+  padding: 0 !important;
+}
+
+/* Agreement Details Grid */
+.agreement-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  background-color: #f8fafc;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.agreement-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.stat-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.liability-clause-box {
+  background-color: #fffbeb;
+  border: 1px solid #fef3c7;
+  border-left: 4px solid #f59e0b;
+  padding: 1.25rem;
+  border-radius: 8px;
+}
+
+.clause-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 700;
+  color: #92400e;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.clause-header mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.clause-text {
+  margin: 0;
+  font-style: italic;
+  color: #78350f;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.clause-scope {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed #fde68a;
+  font-size: 0.85rem;
+  color: #92400e;
+}
+
+/* Status Pills */
+.status-pill {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.pill-success {
+  background-color: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.pill-warning {
+  background-color: #fffbeb;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+.pill-danger {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.pill-info {
+  background-color: #eff6ff;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+}
+
+.pill-muted {
+  background-color: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+}
+
+/* Equipment Table */
+.table-responsive {
+  overflow-x: auto;
+}
+
+.equipment-table {
+  width: 100%;
+}
+
+.category-chip {
+  background-color: #f1f5f9;
+  color: #334155;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.gear-detail-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.owner-tag {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.value-text {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.condition-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+}
+
+.cond-excellent {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.cond-good {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.cond-fair {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.cond-damaged {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Empty State */
+.empty-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: #64748b;
+}
+
+.empty-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #cbd5e1;
+  margin-bottom: 0.75rem;
+}
+
+.empty-section h3 {
+  margin: 0 0 0.5rem 0;
+  color: #1e293b;
+  font-size: 1.1rem;
+}
+
+.empty-section p {
+  margin: 0 0 1.25rem 0;
+  max-width: 500px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* Banner Action */
+.policy-action-banner {
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  color: #ffffff;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.banner-icon {
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+}
+
+.banner-text h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.banner-text p {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.85rem;
+  color: #bfdbfe;
+}
+
+.banner-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.banner-actions button {
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .project-details-container {
+    padding: 1rem;
+  }
+
+  .project-header-card {
+    padding: 1.25rem;
+  }
+
+  .header-meta-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .policy-action-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

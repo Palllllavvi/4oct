@@ -1,0 +1,81 @@
+.dialog-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.header-icon {
+  color: #2563eb;
+}
+
+.dialog-body {
+  padding-top: 0.5rem;
+  max-width: 580px;
+}
+
+.dialog-intro {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.dialog-error-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  margin-bottom: 1rem;
+  font-size: 0.825rem;
+}
+
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.two-col-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.w-half {
+  flex: 1 1 50%;
+}
+
+.dialog-actions {
+  padding: 1rem 1.5rem;
+  gap: 0.5rem;
+}
+
+.submit-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+}
+
+.spinner-inline {
+  display: inline-block;
+  margin-right: 0.4rem;
+}
+
+@media (max-width: 500px) {
+  .two-col-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}

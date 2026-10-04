@@ -1,0 +1,183 @@
+<div class="issue-policy-container">
+  <div class="top-nav">
+    <a mat-button routerLink="/policies/equipment" class="back-link">
+      <mat-icon>arrow_back</mat-icon>
+      <span>Back to Equipment Policies</span>
+    </a>
+  </div>
+
+  <mat-card class="form-card">
+    <mat-card-header class="card-header">
+      <div class="header-icon-wrap">
+        <mat-icon>verified_user</mat-icon>
+      </div>
+      <div>
+        <mat-card-title>Underwrite & Issue Equipment Policy</mat-card-title>
+        <mat-card-subtitle>Authorize hardware liability coverage for freelancer projects</mat-card-subtitle>
+      </div>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content class="card-body">
+      @if (errorMessage) {
+        <div class="error-banner">
+          <mat-icon>error_outline</mat-icon>
+          <span>{{ errorMessage }}</span>
+        </div>
+      }
+
+      <form [formGroup]="policyForm" (ngSubmit)="onSubmit()" class="policy-form" novalidate>
+        <!-- Engagement Mapping Section -->
+        <h3 class="section-title">
+          <mat-icon>assignment</mat-icon>
+          <span>Project & Freelancer Binding</span>
+        </h3>
+
+        <div class="two-col-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Project ID</mat-label>
+            <input matInput type="number" formControlName="projectId" placeholder="e.g. 1" min="1" />
+            <mat-icon matPrefix>tag</mat-icon>
+            @if (policyForm.get('projectId')?.touched && policyForm.get('projectId')?.invalid) {
+              <mat-error>Valid project ID required</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Freelancer User ID</mat-label>
+            <input matInput type="number" formControlName="userId" placeholder="e.g. 1" min="1" />
+            <mat-icon matPrefix>person</mat-icon>
+            @if (policyForm.get('userId')?.touched && policyForm.get('userId')?.invalid) {
+              <mat-error>Valid user ID required</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Project Name</mat-label>
+          <input matInput formControlName="projectName" placeholder="e.g. Commercial Studio Shoot" />
+          <mat-icon matPrefix>work</mat-icon>
+          @if (policyForm.get('projectName')?.touched && policyForm.get('projectName')?.invalid) {
+            <mat-error>Project name is required</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="two-col-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Client / Sponsor Name</mat-label>
+            <input matInput formControlName="clientName" placeholder="e.g. Apex Media Corp" />
+            <mat-icon matPrefix>business</mat-icon>
+            @if (policyForm.get('clientName')?.touched && policyForm.get('clientName')?.invalid) {
+              <mat-error>Client name is required</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Client Company Name (Optional)</mat-label>
+            <input matInput formControlName="clientCompanyName" placeholder="e.g. Apex Global LLC" />
+          </mat-form-field>
+        </div>
+
+        <!-- Term & Valuation -->
+        <h3 class="section-title">
+          <mat-icon>attach_money</mat-icon>
+          <span>Coverage Term & Valuation</span>
+        </h3>
+
+        <div class="two-col-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Policy Start Date</mat-label>
+            <input matInput type="date" formControlName="startDate" />
+            <mat-icon matPrefix>calendar_today</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Policy Expiry Date</mat-label>
+            <input matInput type="date" formControlName="endDate" />
+            <mat-icon matPrefix>event</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="two-col-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Total Insured Value ($ USD)</mat-label>
+            <input matInput type="number" formControlName="insuredValue" min="100" />
+            <mat-icon matPrefix>monetization_on</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Deductible Amount ($ USD)</mat-label>
+            <input matInput type="number" formControlName="deductible" min="0" />
+            <mat-icon matPrefix>shield</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <!-- Covered Equipment Items -->
+        <div class="items-header-row">
+          <h3 class="section-title m-0">
+            <mat-icon>devices</mat-icon>
+            <span>Covered Gear Items ({{ items.length }})</span>
+          </h3>
+          <button mat-stroked-button color="primary" type="button" (click)="addItem()">
+            <mat-icon>add</mat-icon>
+            <span>Add Item</span>
+          </button>
+        </div>
+
+        <div formArrayName="items" class="items-array">
+          @for (item of items.controls; track $index) {
+            <div [formGroupName]="$index" class="item-form-row">
+              <div class="item-row-header">
+                <span class="item-row-title">Item #{{ $index + 1 }}</span>
+                @if (items.length > 1) {
+                  <button mat-icon-button color="warn" type="button" (click)="removeItem($index)" matTooltip="Remove Item">
+                    <mat-icon>delete_outline</mat-icon>
+                  </button>
+                }
+              </div>
+
+              <div class="three-col-grid">
+                <mat-form-field appearance="outline">
+                  <mat-label>Equipment / Model</mat-label>
+                  <input matInput formControlName="equipmentName" placeholder="e.g. Sony FX6 Cinema Camera" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Serial Number</mat-label>
+                  <input matInput formControlName="serialNumber" placeholder="e.g. SN-89472" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Insured Value ($)</mat-label>
+                  <input matInput type="number" formControlName="insuredValue" min="50" />
+                </mat-form-field>
+              </div>
+
+              <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Condition Assessment</mat-label>
+                <mat-select formControlName="condition">
+                  @for (c of conditions; track c) {
+                    <mat-option [value]="c">{{ c }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+          }
+        </div>
+
+        <div class="form-actions">
+          <a mat-button routerLink="/policies/equipment" [disabled]="isSubmitting">Cancel</a>
+          <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting || policyForm.invalid" class="submit-btn">
+            @if (isSubmitting) {
+              <mat-spinner diameter="20" class="spinner-inline"></mat-spinner>
+            } @else {
+              <mat-icon>check_circle</mat-icon>
+            }
+            <span>{{ isSubmitting ? 'Underwriting Policy...' : 'Issue Equipment Policy' }}</span>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

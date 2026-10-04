@@ -1,0 +1,121 @@
+<div class="role-dashboard">
+  <!-- Role Header -->
+  <div class="dashboard-header-card">
+    <div class="header-left">
+      <div class="role-icon-badge admin-theme">
+        <mat-icon>admin_panel_settings</mat-icon>
+      </div>
+      <div>
+        <h1 class="header-title">System Administration & Oversight</h1>
+        <p class="header-subtitle">
+          Global platform governance, microservices operational telemetry, and ecosystem volume
+        </p>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="system-health-pill">
+        <span class="health-dot"></span>
+        Gateway Active
+      </span>
+    </div>
+  </div>
+
+  @if (loading) {
+    <div class="loading-state">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span>Loading platform metrics...</span>
+    </div>
+  } @else {
+    <!-- Admin Cards: Users, Projects, Policies, Claims -->
+    <div class="metrics-grid">
+      <!-- Users Card -->
+      <mat-card class="metric-card card-indigo">
+        <div class="metric-icon-box bg-indigo">
+          <mat-icon>people</mat-icon>
+        </div>
+        <div class="metric-details">
+          <span class="metric-label">Users</span>
+          <span class="metric-value">{{ stats.users }}</span>
+          <span class="metric-hint">Freelancers & platform staff</span>
+        </div>
+        <a mat-button color="primary" routerLink="/profile" class="card-link">Manage Users &rarr;</a>
+      </mat-card>
+
+      <!-- Projects Card -->
+      <mat-card class="metric-card card-blue">
+        <div class="metric-icon-box bg-blue">
+          <mat-icon>source</mat-icon>
+        </div>
+        <div class="metric-details">
+          <span class="metric-label">Projects</span>
+          <span class="metric-value">{{ stats.projects }}</span>
+          <span class="metric-hint">Total registered engagements</span>
+        </div>
+        <a mat-button color="primary" routerLink="/projects" class="card-link">View Projects &rarr;</a>
+      </mat-card>
+
+      <!-- Policies Card -->
+      <mat-card class="metric-card card-emerald">
+        <div class="metric-icon-box bg-emerald">
+          <mat-icon>verified_user</mat-icon>
+        </div>
+        <div class="metric-details">
+          <span class="metric-label">Policies</span>
+          <span class="metric-value">{{ stats.policies }}</span>
+          <span class="metric-hint">Active equipment & income plans</span>
+        </div>
+        <a mat-button color="primary" routerLink="/policies" class="card-link">View Policies &rarr;</a>
+      </mat-card>
+
+      <!-- Claims Card -->
+      <mat-card class="metric-card card-amber">
+        <div class="metric-icon-box bg-amber">
+          <mat-icon>gavel</mat-icon>
+        </div>
+        <div class="metric-details">
+          <span class="metric-label">Claims</span>
+          <span class="metric-value">{{ stats.claims }}</span>
+          <span class="metric-hint">All filed dispute records</span>
+        </div>
+        <a mat-button color="primary" routerLink="/claims" class="card-link">Audit Claims &rarr;</a>
+      </mat-card>
+    </div>
+
+    <!-- Administrative Modules -->
+    <div class="workflow-cards-grid">
+      <mat-card class="workflow-card">
+        <mat-card-header>
+          <div mat-card-avatar class="workflow-avatar bg-indigo">
+            <mat-icon>hub</mat-icon>
+          </div>
+          <mat-card-title>Gateway Routing</mat-card-title>
+          <mat-card-subtitle>Eureka & Microservices Mesh</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="workflow-desc">
+          Auth, Policy, Claims, Project, and Risk Underwriting services connected via Spring Cloud Gateway.
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions align="end">
+          <span class="api-tag">Port: 9090</span>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="workflow-card">
+        <mat-card-header>
+          <div mat-card-avatar class="workflow-avatar bg-emerald">
+            <mat-icon>tune</mat-icon>
+          </div>
+          <mat-card-title>Role Privileges</mat-card-title>
+          <mat-card-subtitle>Role-Based Access Control</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="workflow-desc">
+          Configure security scopes and permissions across Freelancer, Underwriter, Assessor, and Admin roles.
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions align="end">
+          <span class="api-tag">4 Roles Configured</span>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  }
+</div>

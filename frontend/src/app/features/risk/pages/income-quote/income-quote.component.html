@@ -1,0 +1,200 @@
+<div class="quote-container">
+  <div class="header-section">
+    <div>
+      <h1 class="page-title">Income Assurance Risk Underwriting</h1>
+      <p class="page-subtitle">Actuarial income protection calculations based on career longevity, monthly benefit, and contract risk</p>
+    </div>
+  </div>
+
+  @if (errorMessage) {
+    <div class="error-banner">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ errorMessage }}</span>
+    </div>
+  }
+
+  @if (requestSubmitted) {
+    <div class="success-banner">
+      <mat-icon>check_circle</mat-icon>
+      <div>
+        <strong>Policy Application Submitted!</strong>
+        <p>Your income assurance policy request is now pending underwriter review. You can track its status under <strong>My Policy Requests</strong>.</p>
+      </div>
+    </div>
+  }
+
+  <div class="quote-grid">
+    <!-- Form Section -->
+    <mat-card class="form-card">
+      <mat-card-header>
+        <mat-card-title>Income Parameters</mat-card-title>
+        <mat-card-subtitle>Configure monthly benefit and professional details</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form [formGroup]="quoteForm" (ngSubmit)="calculateQuote()" class="form-body">
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="flex-1">
+              <mat-label>Profession / Specialization</mat-label>
+              <input matInput formControlName="profession" />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="flex-1">
+              <mat-label>Experience (Years)</mat-label>
+              <input matInput type="number" formControlName="experienceYears" />
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="flex-1">
+              <mat-label>Avg Monthly Income ($)</mat-label>
+              <input matInput type="number" formControlName="averageMonthlyIncome" />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="flex-1">
+              <mat-label>Requested Monthly Benefit ($)</mat-label>
+              <input matInput type="number" formControlName="requestedMonthlyBenefit" />
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="flex-1">
+              <mat-label>Benefit Duration (Months)</mat-label>
+              <mat-select formControlName="benefitPeriodMonths">
+                <mat-option [value]="3">3 Months</mat-option>
+                <mat-option [value]="6">6 Months</mat-option>
+                <mat-option [value]="9">9 Months</mat-option>
+                <mat-option [value]="12">12 Months</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="flex-1">
+              <mat-label>Covered Events</mat-label>
+              <mat-select formControlName="coveredEventTypes" multiple>
+                @for (evt of availableEvents; track evt) {
+                  <mat-option [value]="evt">{{ evt }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="action-row">
+            <button mat-raised-button color="primary" type="submit" [disabled]="isLoading" class="calculate-btn">
+              @if (isLoading) {
+                <mat-spinner diameter="20" class="mr-2"></mat-spinner>
+                Calculating Risk...
+              } @else {
+                <ng-container>
+                  <mat-icon>calculate</mat-icon>
+                  Calculate Income Assurance Quote
+                </ng-container>
+              }
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Result Section -->
+    <div class="result-section">
+      @if (quoteResult) {
+        <mat-card class="result-card">
+          <div class="result-header">
+            <span class="badge">Income Protection</span>
+            <span class="quote-id">#{{ quoteResult.quoteId }}</span>
+          </div>
+
+          <div class="premium-highlight">
+            <span class="label">Annual Payable Premium</span>
+            <h2 class="amount">{{ quoteResult.totalPayable | currencyFormat }}</h2>
+            <span class="duration">Guaranteed Benefit: {{ quoteResult.monthlyBenefit | currencyFormat }}/mo for {{ quoteResult.benefitPeriodMonths }} mos</span>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <div class="breakdown-list">
+            <div class="breakdown-row">
+              <span>Max Potential Benefit</span>
+              <strong>{{ quoteResult.maxPotentialBenefit | currencyFormat }}</strong>
+            </div>
+            <div class="breakdown-row">
+              <span>Annual Base Premium</span>
+              <span>{{ quoteResult.annualBasePremium | currencyFormat }}</span>
+            </div>
+            <div class="breakdown-row">
+              <span>Risk Adjustment</span>
+              <span>+{{ quoteResult.riskAdjustment | currencyFormat }}</span>
+            </div>
+            <div class="breakdown-row">
+              <span>Tax &amp; Platform Fee</span>
+              <span>{{ quoteResult.taxAmount | currencyFormat }}</span>
+            </div>
+          </div>
+
+          @if (quoteResult.underwritingNote) {
+            <div class="note-box">
+              <mat-icon>info</mat-icon>
+              <span>{{ quoteResult.underwritingNote }}</span>
+            </div>
+          }
+
+          <div class="issue-action">
+            @if (isFreelancer) {
+              <button mat-raised-button color="accent" (click)="submitPolicyRequest()" [disabled]="isSubmitting || requestSubmitted" class="w-full">
+                @if (isSubmitting) {
+                  <mat-spinner diameter="20"></mat-spinner>
+                  Submitting...
+                } @else if (requestSubmitted) {
+                  <ng-container>
+                    <mat-icon>check_circle</mat-icon> Application Submitted
+                  </ng-container>
+                } @else {
+                  <ng-container>
+                    <mat-icon>send</mat-icon> Apply for Income Assurance Policy
+                  </ng-container>
+                }
+              </button>
+            } @else {
+              <button mat-raised-button color="accent" (click)="proceedToIssue()" class="w-full">
+                <mat-icon>verified</mat-icon> Proceed to Issue Income Policy
+              </button>
+            }
+          </div>
+        </mat-card>
+      } @else {
+        <mat-card class="empty-quote-card">
+          <mat-icon class="large-icon">security</mat-icon>
+          <h3>Autonomous Actuarial Evaluation</h3>
+          @if (isFreelancer) {
+            <p>Submit your income details, generate a quote, then click <strong>Apply for Income Assurance Policy</strong> to send your application to an underwriter.</p>
+          } @else {
+            <p>Submit your contract details to calculate custom baseline premium rates and risk multipliers via API Gateway.</p>
+          }
+        </mat-card>
+
+        @if (isFreelancer) {
+          <mat-card class="quick-apply-card">
+            <div class="quick-apply-header">
+              <mat-icon>rocket_launch</mat-icon>
+              <div>
+                <h4>Apply Without a Quote</h4>
+                <p>Submit your income protection request now — the underwriter will calculate the premium for you.</p>
+              </div>
+            </div>
+            <button mat-stroked-button color="primary" (click)="submitPolicyRequest()" [disabled]="isSubmitting || requestSubmitted" class="w-full">
+              @if (isSubmitting) {
+                <mat-spinner diameter="20"></mat-spinner>
+                Submitting...
+              } @else if (requestSubmitted) {
+                <ng-container>
+                  <mat-icon>check_circle</mat-icon> Application Submitted
+                </ng-container>
+              } @else {
+                <ng-container>
+                  <mat-icon>send</mat-icon> Submit Policy Application
+                </ng-container>
+              }
+            </button>
+          </mat-card>
+        }
+      }
+    </div>
+  </div>
+</div>

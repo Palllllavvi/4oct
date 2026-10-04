@@ -1,0 +1,120 @@
+<aside class="sidebar-wrapper">
+  <!-- User summary banner in sidebar -->
+  <div class="sidebar-user-card">
+    <div class="user-avatar-lg">
+      {{ (user?.name?.charAt(0) || 'U') | uppercase }}
+    </div>
+    <div class="user-info-text">
+      <div class="user-display-name">{{ user?.name || 'Freelancer' }}</div>
+      <div class="user-role-badge">{{ userRole }}</div>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Navigation Links -->
+  <div class="sidebar-section-title">Navigation</div>
+  <mat-nav-list class="sidebar-nav-list">
+    @for (item of mainNavItems; track item.route) {
+      @if (isItemVisible(item)) {
+        <a
+          mat-list-item
+          [routerLink]="item.route"
+          routerLinkActive="active-nav-item"
+          (click)="onNavigate()"
+          class="nav-item-link"
+        >
+          <mat-icon matListItemIcon class="nav-item-icon">{{ item.icon }}</mat-icon>
+          <span matListItemTitle class="nav-item-title">{{ item.label }}</span>
+        </a>
+      }
+    }
+  </mat-nav-list>
+
+  <!-- Expandable Nav Groups (Policies, Claims) -->
+  @for (group of navGroups; track group.label) {
+    @if (isItemVisible(group)) {
+      <mat-accordion class="nav-group-accordion">
+        <mat-expansion-panel
+          class="nav-group-panel"
+          [class.group-active]="isGroupActive(group)"
+          [expanded]="isGroupActive(group)"
+          hideToggle
+        >
+          <mat-expansion-panel-header class="nav-group-header">
+            <mat-panel-title class="nav-group-title">
+              <mat-icon class="nav-item-icon">{{ group.icon }}</mat-icon>
+              <span class="nav-item-title">{{ group.label }}</span>
+            </mat-panel-title>
+            <mat-icon class="nav-group-chevron">expand_more</mat-icon>
+          </mat-expansion-panel-header>
+
+          <mat-nav-list class="nav-sub-list">
+            @for (child of group.children; track child.route) {
+              @if (isItemVisible(child)) {
+                <a
+                  mat-list-item
+                  [routerLink]="child.route"
+                  routerLinkActive="active-nav-item"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  (click)="onNavigate()"
+                  class="nav-sub-item-link"
+                >
+                  <mat-icon matListItemIcon class="nav-sub-icon">{{ child.icon }}</mat-icon>
+                  <span matListItemTitle class="nav-sub-title">{{ child.label }}</span>
+                </a>
+              }
+            }
+          </mat-nav-list>
+        </mat-expansion-panel>
+      </mat-accordion>
+    }
+  }
+
+  <!-- Bottom nav items (Risk & Underwriting) -->
+  <mat-nav-list class="sidebar-nav-list">
+    @for (item of bottomNavItems; track item.route) {
+      @if (isItemVisible(item)) {
+        <a
+          mat-list-item
+          [routerLink]="item.route"
+          routerLinkActive="active-nav-item"
+          (click)="onNavigate()"
+          class="nav-item-link"
+        >
+          <mat-icon matListItemIcon class="nav-item-icon">{{ item.icon }}</mat-icon>
+          <span matListItemTitle class="nav-item-title">{{ item.label }}</span>
+        </a>
+      }
+    }
+  </mat-nav-list>
+
+  <mat-divider></mat-divider>
+
+  <!-- Account / Settings Section -->
+  <div class="sidebar-section-title">Account</div>
+  <mat-nav-list class="sidebar-nav-list">
+    @for (item of accountNavItems; track item.route) {
+      <a
+        mat-list-item
+        [routerLink]="item.route"
+        routerLinkActive="active-nav-item"
+        (click)="onNavigate()"
+        class="nav-item-link"
+      >
+        <mat-icon matListItemIcon class="nav-item-icon">{{ item.icon }}</mat-icon>
+        <span matListItemTitle class="nav-item-title">{{ item.label }}</span>
+      </a>
+    }
+  </mat-nav-list>
+
+  <div class="sidebar-spacer"></div>
+
+  <!-- Logout Button at bottom -->
+  <div class="sidebar-footer-action">
+    <button mat-button class="sidebar-logout-btn" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Sign Out</span>
+    </button>
+  </div>
+</aside>

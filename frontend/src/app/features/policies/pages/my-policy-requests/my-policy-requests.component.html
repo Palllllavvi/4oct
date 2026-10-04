@@ -1,0 +1,230 @@
+<div class="my-requests-container">
+
+  <div class="page-header">
+    <div class="header-left">
+      <div class="header-icon">
+        <mat-icon>assignment</mat-icon>
+      </div>
+      <div>
+        <h1>My Policy Applications</h1>
+        <p>Track the status of your equipment and income assurance policy requests</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <a mat-stroked-button color="primary" routerLink="/risk/equipment-quote">
+        <mat-icon>devices</mat-icon> Apply for Equipment
+      </a>
+      <a mat-stroked-button color="accent" routerLink="/risk/income-quote">
+        <mat-icon>account_balance_wallet</mat-icon> Apply for Income Cover
+      </a>
+    </div>
+  </div>
+
+  <!-- Summary Stats -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <span class="stat-number">{{ myRequests.length }}</span>
+      <span class="stat-label">Total Applications</span>
+    </div>
+    <div class="stat-card pending">
+      <mat-icon>pending_actions</mat-icon>
+      <span class="stat-number">{{ pending.length }}</span>
+      <span class="stat-label">Pending Review</span>
+    </div>
+    <div class="stat-card approved">
+      <mat-icon>check_circle</mat-icon>
+      <span class="stat-number">{{ approved.length }}</span>
+      <span class="stat-label">Approved</span>
+    </div>
+    <div class="stat-card disapproved">
+      <mat-icon>cancel</mat-icon>
+      <span class="stat-number">{{ disapproved.length }}</span>
+      <span class="stat-label">Disapproved</span>
+    </div>
+  </div>
+
+  @if (myRequests.length === 0) {
+    <div class="empty-state">
+      <mat-icon>assignment_add</mat-icon>
+      <h3>No Policy Applications Yet</h3>
+      <p>You haven't applied for any policies. Click the buttons above to get started.</p>
+      <div class="empty-actions">
+        <a mat-raised-button color="primary" routerLink="/risk/equipment-quote">
+          <mat-icon>devices</mat-icon> Equipment Policy Quote
+        </a>
+        <a mat-raised-button color="accent" routerLink="/risk/income-quote">
+          <mat-icon>account_balance_wallet</mat-icon> Income Assurance Quote
+        </a>
+      </div>
+    </div>
+  } @else {
+
+    <mat-tab-group animationDuration="200ms" class="requests-tabs">
+
+      <!-- ─── ALL TAB ─── -->
+      <mat-tab label="All ({{ myRequests.length }})">
+        <div class="request-list">
+          @for (req of myRequests; track req.id) {
+            <ng-container *ngTemplateOutlet="requestCard; context: {$implicit: req}"></ng-container>
+          }
+        </div>
+      </mat-tab>
+
+      <!-- ─── PENDING TAB ─── -->
+      <mat-tab label="Pending ({{ pending.length }})">
+        @if (pending.length === 0) {
+          <div class="empty-state-inline"><mat-icon>done_all</mat-icon><span>No pending applications</span></div>
+        } @else {
+          <div class="request-list">
+            @for (req of pending; track req.id) {
+              <ng-container *ngTemplateOutlet="requestCard; context: {$implicit: req}"></ng-container>
+            }
+          </div>
+        }
+      </mat-tab>
+
+      <!-- ─── APPROVED TAB ─── -->
+      <mat-tab label="Approved ({{ approved.length }})">
+        @if (approved.length === 0) {
+          <div class="empty-state-inline"><mat-icon>hourglass_empty</mat-icon><span>No approved applications yet</span></div>
+        } @else {
+          <div class="request-list">
+            @for (req of approved; track req.id) {
+              <ng-container *ngTemplateOutlet="requestCard; context: {$implicit: req}"></ng-container>
+            }
+          </div>
+        }
+      </mat-tab>
+
+      <!-- ─── DISAPPROVED TAB ─── -->
+      <mat-tab label="Disapproved ({{ disapproved.length }})">
+        @if (disapproved.length === 0) {
+          <div class="empty-state-inline"><mat-icon>thumb_up</mat-icon><span>None disapproved</span></div>
+        } @else {
+          <div class="request-list">
+            @for (req of disapproved; track req.id) {
+              <ng-container *ngTemplateOutlet="requestCard; context: {$implicit: req}"></ng-container>
+            }
+          </div>
+        }
+      </mat-tab>
+    </mat-tab-group>
+  }
+
+</div>
+
+<!-- ─── Request Card Template ─── -->
+<ng-template #requestCard let-req>
+  <mat-card class="request-card" [class.card-pending]="req.status === 'PENDING'"
+            [class.card-approved]="req.status === 'APPROVED'"
+            [class.card-disapproved]="req.status === 'DISAPPROVED'">
+
+    <!-- Header -->
+    <div class="rc-header">
+      <div class="rc-type-badge" [class.badge-equip]="req.type === 'EQUIPMENT'" [class.badge-income]="req.type === 'INCOME'">
+        <mat-icon>{{ req.type === 'EQUIPMENT' ? 'devices' : 'account_balance_wallet' }}</mat-icon>
+        {{ req.type === 'EQUIPMENT' ? 'Equipment Policy' : 'Income Assurance' }}
+      </div>
+      <div class="rc-status-badge" [class.sbadge-pending]="req.status === 'PENDING'"
+           [class.sbadge-approved]="req.status === 'APPROVED'"
+           [class.sbadge-disapproved]="req.status === 'DISAPPROVED'">
+        <mat-icon>{{ getStatusIcon(req.status) }}</mat-icon>
+        {{ req.status }}
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- Body -->
+    <div class="rc-body">
+      <span class="rc-date">Applied: {{ req.submittedAt | date:'MMM d, y, h:mm a' }}</span>
+
+      @if (req.type === 'EQUIPMENT') {
+        <div class="rc-detail-row">
+          <mat-icon>work</mat-icon>
+          <div>
+            <strong>{{ asEquipment(req).projectName }}</strong>
+            <span>Client: {{ asEquipment(req).clientName }}</span>
+          </div>
+        </div>
+        <div class="rc-detail-row">
+          <mat-icon>devices</mat-icon>
+          <div>
+            <strong>{{ asEquipment(req).equipmentList?.length }} equipment items</strong>
+            <span>Total declared value: {{ getEquipmentTotal(req) | currency:'USD':'symbol':'1.0-0' }}</span>
+          </div>
+        </div>
+        <div class="rc-detail-row">
+          <mat-icon>date_range</mat-icon>
+          <span>{{ asEquipment(req).startDate }} → {{ asEquipment(req).endDate }}</span>
+        </div>
+      }
+
+      @if (req.type === 'INCOME') {
+        <div class="rc-detail-row">
+          <mat-icon>work_history</mat-icon>
+          <div>
+            <strong>{{ asIncome(req).profession }}</strong>
+            <span>{{ asIncome(req).experienceYears }} years experience</span>
+          </div>
+        </div>
+        <div class="rc-detail-row">
+          <mat-icon>payments</mat-icon>
+          <div>
+            <strong>{{ asIncome(req).requestedMonthlyBenefit | currency:'USD':'symbol':'1.0-0' }}/mo benefit</strong>
+            <span>Avg income: {{ asIncome(req).averageMonthlyIncome | currency:'USD':'symbol':'1.0-0' }} | Period: {{ asIncome(req).benefitPeriodMonths }} months</span>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Outcome Section -->
+    @if (req.status === 'APPROVED') {
+      <div class="outcome-approved">
+        <mat-icon>verified</mat-icon>
+        <div>
+          <h4>Policy Issued! 🎉</h4>
+          <p>Your policy number is <strong>{{ req.issuedPolicyNumber }}</strong>. You can view the full policy details in the Policies section.</p>
+          <a mat-stroked-button color="primary" routerLink="/policies">
+            <mat-icon>policy</mat-icon> View My Policies
+          </a>
+        </div>
+      </div>
+    }
+
+    @if (req.status === 'DISAPPROVED') {
+      <div class="outcome-disapproved">
+        <mat-icon>cancel</mat-icon>
+        <div>
+          <h4>Application Disapproved</h4>
+          @if (req.reviewNote) {
+            <p>Reason: <em>{{ req.reviewNote }}</em></p>
+          } @else {
+            <p>Your application was not approved. You may reapply with updated information.</p>
+          }
+          <div class="reapply-actions">
+            @if (req.type === 'EQUIPMENT') {
+              <a mat-stroked-button color="primary" routerLink="/risk/equipment-quote">
+                <mat-icon>refresh</mat-icon> Reapply for Equipment Policy
+              </a>
+            } @else {
+              <a mat-stroked-button color="accent" routerLink="/risk/income-quote">
+                <mat-icon>refresh</mat-icon> Reapply for Income Cover
+              </a>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (req.status === 'PENDING') {
+      <div class="outcome-pending">
+        <mat-icon>hourglass_top</mat-icon>
+        <div>
+          <h4>Under Review</h4>
+          <p>Your application is in the underwriter's queue. You will see an update here once reviewed.</p>
+        </div>
+      </div>
+    }
+  </mat-card>
+</ng-template>

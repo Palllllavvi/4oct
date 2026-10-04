@@ -1,0 +1,147 @@
+<div class="issue-policy-container">
+  <div class="top-nav">
+    <a mat-button routerLink="/policies/income" class="back-link">
+      <mat-icon>arrow_back</mat-icon>
+      <span>Back to Income Policies</span>
+    </a>
+  </div>
+
+  <mat-card class="form-card">
+    <mat-card-header class="card-header">
+      <div class="header-icon-wrap">
+        <mat-icon>volunteer_activism</mat-icon>
+      </div>
+      <div>
+        <mat-card-title>Underwrite Income Assurance Policy</mat-card-title>
+        <mat-card-subtitle>Issue income protection guarantee for eligible freelancers</mat-card-subtitle>
+      </div>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content class="card-body">
+      @if (errorMessage) {
+        <div class="error-banner">
+          <mat-icon>error_outline</mat-icon>
+          <span>{{ errorMessage }}</span>
+        </div>
+      }
+
+      <form [formGroup]="policyForm" (ngSubmit)="onSubmit()" class="policy-form" novalidate>
+        <!-- Freelancer Identity -->
+        <h3 class="section-title">
+          <mat-icon>person</mat-icon>
+          <span>Freelancer Information</span>
+        </h3>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Freelancer User ID</mat-label>
+          <input matInput type="number" formControlName="userId" placeholder="e.g. 1" min="1" />
+          <mat-icon matPrefix>tag</mat-icon>
+          @if (policyForm.get('userId')?.touched && policyForm.get('userId')?.invalid) {
+            <mat-error>Valid user ID is required</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="two-col-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Freelancer Full Name</mat-label>
+            <input matInput formControlName="freelancerName" placeholder="e.g. Jane Doe" />
+            <mat-icon matPrefix>badge</mat-icon>
+            @if (policyForm.get('freelancerName')?.touched && policyForm.get('freelancerName')?.invalid) {
+              <mat-error>Name is required</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Freelancer Email</mat-label>
+            <input matInput type="email" formControlName="freelancerEmail" placeholder="jane.doe@example.com" />
+            <mat-icon matPrefix>email</mat-icon>
+            @if (policyForm.get('freelancerEmail')?.touched && policyForm.get('freelancerEmail')?.invalid) {
+              <mat-error>Valid email is required</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <!-- Terms & Benefit Parameters -->
+        <h3 class="section-title">
+          <mat-icon>savings</mat-icon>
+          <span>Income & Benefit Window</span>
+        </h3>
+
+        <div class="two-col-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Coverage Effective Start Date</mat-label>
+            <input matInput type="date" formControlName="startDate" />
+            <mat-icon matPrefix>calendar_today</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Monthly Declared Income ($ USD)</mat-label>
+            <input matInput type="number" formControlName="monthlyIncome" min="500" />
+            <mat-icon matPrefix>attach_money</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Benefit Duration (Months of Payout)</mat-label>
+          <mat-select formControlName="benefitMonths">
+            <mat-option [value]="1">1 Month Payout</mat-option>
+            <mat-option [value]="2">2 Months Payout</mat-option>
+            <mat-option [value]="3">3 Months Payout (Standard)</mat-option>
+            <mat-option [value]="6">6 Months Payout (Extended)</mat-option>
+          </mat-select>
+          <mat-icon matPrefix>schedule</mat-icon>
+        </mat-form-field>
+
+        <!-- Dynamic Benefit Preview Box -->
+        <div class="benefit-preview-box">
+          <div class="preview-item">
+            <span class="preview-label">Monthly Benefit</span>
+            <span class="preview-val">{{ (policyForm.get('monthlyIncome')?.value || 0) | currency:'USD':'symbol':'1.0-0' }}</span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-label">Duration</span>
+            <span class="preview-val">{{ policyForm.get('benefitMonths')?.value || 0 }} Months</span>
+          </div>
+          <div class="preview-item highlight">
+            <span class="preview-label">Total Reserve Committed</span>
+            <span class="preview-val-total">{{ calculatedTotalBenefit | currency:'USD':'symbol':'1.0-0' }}</span>
+          </div>
+        </div>
+
+        <!-- Covered Perils -->
+        <h3 class="section-title">
+          <mat-icon>security</mat-icon>
+          <span>Covered Termination Perils</span>
+        </h3>
+
+        <div class="perils-selection-grid">
+          @for (type of terminationTypes; track type.key) {
+            <div class="peril-checkbox-card" [class.selected]="selectedTerminationTypes.has(type.key)">
+              <mat-checkbox
+                [checked]="selectedTerminationTypes.has(type.key)"
+                (change)="toggleTerminationType(type.key, $event.checked)"
+                color="primary"
+              >
+                <span class="peril-label">{{ type.label }}</span>
+              </mat-checkbox>
+            </div>
+          }
+        </div>
+
+        <div class="form-actions">
+          <a mat-button routerLink="/policies/income" [disabled]="isSubmitting">Cancel</a>
+          <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting || policyForm.invalid" class="submit-btn">
+            @if (isSubmitting) {
+              <mat-spinner diameter="20" class="spinner-inline"></mat-spinner>
+            } @else {
+              <mat-icon>check_circle</mat-icon>
+            }
+            <span>{{ isSubmitting ? 'Underwriting Policy...' : 'Issue Income Policy' }}</span>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

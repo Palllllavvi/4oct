@@ -1,0 +1,141 @@
+<div class="role-dashboard">
+  <!-- Role Header -->
+  <div class="dashboard-header-card">
+    <div class="header-left">
+      <div class="role-icon-badge underwriter-theme">
+        <mat-icon>security</mat-icon>
+      </div>
+      <div>
+        <h1 class="header-title">Underwriting Terminal</h1>
+        <p class="header-subtitle">
+          Risk calculation models, policy binding approval, and portfolio exposure oversight
+        </p>
+      </div>
+    </div>
+    <div class="header-right">
+      <a mat-raised-button color="primary" routerLink="/policies/underwriter-requests" class="action-btn">
+        <mat-icon>pending_actions</mat-icon>
+        <span>Review Queue</span>
+      </a>
+    </div>
+  </div>
+
+  @if (loading) {
+    <div class="loading-state">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span>Loading underwriting portfolio...</span>
+    </div>
+  } @else {
+    <!-- Underwriter Stats Cards -->
+    <div class="metrics-grid">
+
+      <!-- Pending Applications Card (most important — shown first) -->
+      <mat-card class="metric-card card-amber">
+        <div class="metric-icon-box bg-amber">
+          <mat-icon>pending_actions</mat-icon>
+        </div>
+        <div class="metric-details">
+          <span class="metric-label">Pending Applications</span>
+          <span class="metric-value">{{ pendingApplications }}</span>
+          <span class="metric-hint">Awaiting your review &amp; approval</span>
+        </div>
+        <a mat-button color="warn" routerLink="/policies/underwriter-requests" class="card-link">Review Now &rarr;</a>
+      </mat-card>
+
+      <!-- Policies Issued Card -->
+      <mat-card class="metric-card card-purple">
+        <div class="metric-icon-box bg-purple">
+          <mat-icon>verified</mat-icon>
+        </div>
+        <div class="metric-details">
+          <span class="metric-label">Policies Issued</span>
+          <span class="metric-value">{{ stats.policiesIssued }}</span>
+          <span class="metric-hint">Total bound contracts</span>
+        </div>
+        <a mat-button color="primary" routerLink="/policies" class="card-link">Manage Policies &rarr;</a>
+      </mat-card>
+
+      <!-- Equipment Policies Card -->
+      <mat-card class="metric-card card-blue">
+        <div class="metric-icon-box bg-blue">
+          <mat-icon>devices_other</mat-icon>
+        </div>
+        <div class="metric-details">
+          <span class="metric-label">Equipment Policies</span>
+          <span class="metric-value">{{ stats.equipmentPolicies }}</span>
+          <span class="metric-hint">Gear &amp; hardware risk lines</span>
+        </div>
+        <a mat-button color="primary" routerLink="/policies/equipment" class="card-link">View Equipment &rarr;</a>
+      </mat-card>
+
+      <!-- Income Policies Card -->
+      <mat-card class="metric-card card-emerald">
+        <div class="metric-icon-box bg-emerald">
+          <mat-icon>payments</mat-icon>
+        </div>
+        <div class="metric-details">
+          <span class="metric-label">Income Policies</span>
+          <span class="metric-value">{{ stats.incomePolicies }}</span>
+          <span class="metric-hint">Earnings protection lines</span>
+        </div>
+        <a mat-button color="primary" routerLink="/policies/income" class="card-link">View Income &rarr;</a>
+      </mat-card>
+    </div>
+
+    <!-- Underwriting Operations -->
+    <div class="workflow-cards-grid">
+      <mat-card class="workflow-card">
+        <mat-card-header>
+          <div mat-card-avatar class="workflow-avatar bg-purple">
+            <mat-icon>speed</mat-icon>
+          </div>
+          <mat-card-title>Dynamic Risk Engine</mat-card-title>
+          <mat-card-subtitle>Automated coefficient pricing</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="workflow-desc">
+          Evaluate freelancer experience, equipment age, and average monthly revenue to adjust premium rates using the underwriting risk service.
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions align="end">
+          <a mat-stroked-button color="primary" routerLink="/risk/equipment-quote">Equipment Quote</a>
+          <a mat-stroked-button color="primary" routerLink="/risk/income-quote">Income Quote</a>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="workflow-card">
+        <mat-card-header>
+          <div mat-card-avatar class="workflow-avatar bg-blue">
+            <mat-icon>rule_folder</mat-icon>
+          </div>
+          <mat-card-title>Quote Underwriting</mat-card-title>
+          <mat-card-subtitle>Pending quote binding</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="workflow-desc">
+          Review quote requests submitted by freelancers, verify deductibles, and issue binding certificates.
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions align="end">
+          <a mat-stroked-button color="primary" routerLink="/policies">All Policies</a>
+        </mat-card-actions>
+      </mat-card>
+
+      <!-- Policy Application Queue Card -->
+      <mat-card class="workflow-card">
+        <mat-card-header>
+          <div mat-card-avatar class="workflow-avatar bg-emerald">
+            <mat-icon>pending_actions</mat-icon>
+          </div>
+          <mat-card-title>Policy Application Queue</mat-card-title>
+          <mat-card-subtitle>Review freelancer requests</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="workflow-desc">
+          Review policy applications submitted by freelancers. Get risk quotes from the engine, then approve and issue policies or disapprove with reasons.
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions align="end">
+          <a mat-raised-button color="accent" routerLink="/policies/underwriter-requests">Review Applications ({{ pendingApplications }})</a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  }
+</div>

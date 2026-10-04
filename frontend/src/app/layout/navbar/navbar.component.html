@@ -1,0 +1,86 @@
+<mat-toolbar class="app-toolbar">
+  <div class="toolbar-left">
+    @if (isLoggedIn) {
+      <button
+        mat-icon-button
+        (click)="toggleSidebar()"
+        aria-label="Toggle navigation menu"
+        matTooltip="Toggle Menu"
+        class="menu-toggle-btn"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+    }
+
+    <a routerLink="/" class="brand-link">
+      <div class="brand-icon">
+        <mat-icon>shield</mat-icon>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">Freelance<span class="highlight">Shield</span></span>
+        <span class="brand-subtitle">Risk & Insurance Hub</span>
+      </div>
+    </a>
+  </div>
+
+  <span class="toolbar-spacer"></span>
+
+  <div class="toolbar-right">
+    @if (isLoggedIn) {
+      <div class="user-chip">
+        <span class="role-pill" [ngClass]="roleBadgeColor">
+          {{ roleLabel }}
+        </span>
+      </div>
+
+      <button
+        mat-button
+        [matMenuTriggerFor]="userMenu"
+        class="user-profile-button"
+        aria-label="User account menu"
+      >
+        <div class="avatar-circle">
+          {{ (user?.name?.charAt(0) || 'U') | uppercase }}
+        </div>
+        <div class="user-meta">
+          <span class="user-name">{{ user?.name || 'User' }}</span>
+          <span class="user-email">{{ user?.email }}</span>
+        </div>
+        <mat-icon class="dropdown-chevron">expand_more</mat-icon>
+      </button>
+
+      <mat-menu #userMenu="matMenu" xPosition="before" class="custom-user-menu">
+        <div class="menu-header">
+          <p class="menu-name">{{ user?.name }}</p>
+          <p class="menu-email">{{ user?.email }}</p>
+          <span class="menu-role" [ngClass]="roleBadgeColor">{{ roleLabel }}</span>
+        </div>
+        <mat-divider></mat-divider>
+        <a mat-menu-item routerLink="/dashboard">
+          <mat-icon>dashboard</mat-icon>
+          <span>Dashboard</span>
+        </a>
+        <a mat-menu-item routerLink="/profile">
+          <mat-icon>person</mat-icon>
+          <span>My Profile</span>
+        </a>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="logout()" class="logout-menu-item">
+          <mat-icon class="text-danger">logout</mat-icon>
+          <span class="text-danger">Sign Out</span>
+        </button>
+      </mat-menu>
+    } @else {
+      <div class="auth-buttons">
+        <a mat-button routerLink="/login" class="nav-auth-btn">
+          <mat-icon>login</mat-icon>
+          <span>Sign In</span>
+        </a>
+        <a mat-raised-button color="primary" routerLink="/register" class="nav-register-btn">
+          <mat-icon>person_add</mat-icon>
+          <span>Register</span>
+        </a>
+      </div>
+    }
+  </div>
+</mat-toolbar>

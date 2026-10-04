@@ -1,0 +1,143 @@
+<div class="role-dashboard">
+  <!-- Role Header -->
+  <div class="dashboard-header-card">
+    <div class="header-left">
+      <div class="role-icon-badge freelancer-theme">
+        <mat-icon>laptop_mac</mat-icon>
+      </div>
+      <div>
+        <h1 class="header-title">Freelancer Hub</h1>
+        <p class="header-subtitle">
+          Manage your independent gigs, active coverage certificates, and submitted claims
+        </p>
+      </div>
+    </div>
+    <div class="header-right">
+      <a mat-raised-button color="primary" routerLink="/projects" class="action-btn">
+        <mat-icon>add</mat-icon>
+        <span>New Project</span>
+      </a>
+    </div>
+  </div>
+
+  @if (loading) {
+    <div class="loading-state">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span>Loading dashboard data...</span>
+    </div>
+  } @else {
+    <!-- Freelancer Cards: Total Projects, Active Policies, Submitted Claims -->
+    <div class="metrics-grid">
+      <!-- Total Projects Card -->
+      <mat-card class="metric-card card-blue">
+        <div class="metric-icon-box bg-blue">
+          <mat-icon>work</mat-icon>
+        </div>
+        <div class="metric-details">
+          <span class="metric-label">Total Projects</span>
+          <span class="metric-value">{{ stats.totalProjects }}</span>
+          <span class="metric-hint">Client contracts & deliverables</span>
+        </div>
+        <a mat-button color="primary" routerLink="/projects" class="card-link">View All &rarr;</a>
+      </mat-card>
+
+      <!-- Active Policies Card -->
+      <mat-card class="metric-card card-emerald">
+        <div class="metric-icon-box bg-emerald">
+          <mat-icon>shield</mat-icon>
+        </div>
+        <div class="metric-details">
+          <span class="metric-label">Active Policies</span>
+          <span class="metric-value">{{ stats.activePolicies }}</span>
+          <span class="metric-hint">Equipment & income protection</span>
+        </div>
+        <a mat-button color="primary" routerLink="/policies" class="card-link">View Policies &rarr;</a>
+      </mat-card>
+
+      <!-- Submitted Claims Card -->
+      <mat-card class="metric-card card-amber">
+        <div class="metric-icon-box bg-amber">
+          <mat-icon>assignment_turned_in</mat-icon>
+        </div>
+        <div class="metric-details">
+          <span class="metric-label">Submitted Claims</span>
+          <span class="metric-value">{{ stats.submittedClaims }}</span>
+          <span class="metric-hint">Damage & income loss claims</span>
+        </div>
+        <a mat-button color="primary" routerLink="/claims" class="card-link">Track Claims &rarr;</a>
+      </mat-card>
+    </div>
+
+    <!-- Quick Action Workflows -->
+    <div class="workflow-cards-grid">
+      <mat-card class="workflow-card">
+        <mat-card-header>
+          <div mat-card-avatar class="workflow-avatar bg-blue">
+            <mat-icon>devices</mat-icon>
+          </div>
+          <mat-card-title>Protect Equipment</mat-card-title>
+          <mat-card-subtitle>Laptops, cameras, and studio gear</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="workflow-desc">
+          Apply for equipment insurance covering loss, accidental damage, or theft on project assignments. Your application goes to an underwriter for quick approval.
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions align="end">
+          <a mat-raised-button color="primary" routerLink="/risk/equipment-quote">Apply Now</a>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="workflow-card">
+        <mat-card-header>
+          <div mat-card-avatar class="workflow-avatar bg-emerald">
+            <mat-icon>trending_up</mat-icon>
+          </div>
+          <mat-card-title>Income Assurance</mat-card-title>
+          <mat-card-subtitle>Coverage against client payment defaults</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="workflow-desc">
+          Apply for income protection if a client abruptly terminates your contract. Covers insolvency, breach, and medical incapacity events.
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions align="end">
+          <a mat-raised-button color="primary" routerLink="/risk/income-quote">Apply Now</a>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="workflow-card">
+        <mat-card-header>
+          <div mat-card-avatar class="workflow-avatar bg-amber">
+            <mat-icon>report_problem</mat-icon>
+          </div>
+          <mat-card-title>File an Incident</mat-card-title>
+          <mat-card-subtitle>Quick submission & fast tracking</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="workflow-desc">
+          Encountered broken gear or a disputed milestone? Submit proof to our licensed claim assessors directly.
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions align="end">
+          <a mat-stroked-button color="warn" routerLink="/claims">File Incident</a>
+        </mat-card-actions>
+      </mat-card>
+
+      <!-- My Policy Applications card -->
+      <mat-card class="workflow-card">
+        <mat-card-header>
+          <div mat-card-avatar class="workflow-avatar bg-purple">
+            <mat-icon>assignment</mat-icon>
+          </div>
+          <mat-card-title>My Policy Applications</mat-card-title>
+          <mat-card-subtitle>Track approval status</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="workflow-desc">
+          View the status of your submitted equipment and income assurance policy applications. See if approved or get the reason for disapproval.
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions align="end">
+          <a mat-stroked-button color="primary" routerLink="/policies/my-requests">View My Requests</a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  }
+</div>

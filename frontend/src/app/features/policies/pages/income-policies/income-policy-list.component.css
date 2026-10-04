@@ -1,0 +1,253 @@
+.policy-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.page-subtitle {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+}
+
+/* KPI Grid */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.kpi-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.kpi-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  color: #ffffff;
+}
+
+.kpi-icon-wrap mat-icon {
+  font-size: 26px;
+  width: 26px;
+  height: 26px;
+}
+
+.icon-blue {
+  background-color: #2563eb;
+}
+
+.icon-green {
+  background-color: #059669;
+}
+
+.icon-purple {
+  background-color: #7c3aed;
+}
+
+.kpi-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.kpi-label {
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.kpi-value {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+/* Table styles */
+.policy-table {
+  width: 100%;
+}
+
+.policy-num-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.policy-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: #059669;
+}
+
+.policy-num-cell code {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.freelancer-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.sub-text {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.period-pill {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+}
+
+.val-bold {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.premium-text {
+  font-weight: 600;
+  color: #059669;
+}
+
+.dates-text {
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.badge-active {
+  background-color: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.badge-pending {
+  background-color: #fffbeb;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+.badge-expired {
+  background-color: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+}
+
+.badge-cancelled {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.badge-claimed {
+  background-color: #eff6ff;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+}
+
+.badge-muted {
+  background-color: #f1f5f9;
+  color: #475569;
+}
+
+/* Actions Column & Claim Button */
+.claim-action-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.35rem;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  padding: 0 0.75rem !important;
+  height: 32px !important;
+  line-height: 30px !important;
+  transition: all 0.2s ease;
+}
+
+.claim-action-btn:hover {
+  background-color: #fef2f2 !important;
+}
+
+.claim-action-btn mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 2px;
+}
+
+.claimed-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #1e40af;
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+}
+
+.claimed-badge mat-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.text-muted {
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+

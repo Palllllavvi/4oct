@@ -1,0 +1,357 @@
+<div class="uw-requests-container">
+  <div class="page-header">
+    <div class="header-left">
+      <div class="header-icon">
+        <mat-icon>rule_folder</mat-icon>
+      </div>
+      <div>
+        <h1>Policy Application Queue</h1>
+        <p>Review freelancer policy requests, generate risk quotes, and issue or decline coverage</p>
+      </div>
+    </div>
+    <button mat-stroked-button color="primary" (click)="loadRequests()">
+      <mat-icon>refresh</mat-icon> Refresh
+    </button>
+  </div>
+
+  <!-- Summary Stats (clickable) -->
+  <div class="stats-row">
+    <div class="stat-chip chip-total">
+      <mat-icon>inbox</mat-icon>
+      <span><strong>{{ allRequests.length }}</strong> Total</span>
+    </div>
+    <div class="stat-chip chip-pending clickable" (click)="selectedTabIndex = 0">
+      <mat-icon>pending</mat-icon>
+      <span><strong>{{ pendingRequests.length }}</strong> Pending</span>
+    </div>
+    <div class="stat-chip chip-approved clickable" (click)="selectedTabIndex = 1">
+      <mat-icon>check_circle</mat-icon>
+      <span><strong>{{ approvedRequests.length }}</strong> Approved</span>
+    </div>
+    <div class="stat-chip chip-disapproved clickable" (click)="selectedTabIndex = 2">
+      <mat-icon>cancel</mat-icon>
+      <span><strong>{{ disapprovedRequests.length }}</strong> Disapproved</span>
+    </div>
+  </div>
+
+  <mat-tab-group [(selectedIndex)]="selectedTabIndex" animationDuration="200ms" class="requests-tabs">
+
+    <!-- ─── PENDING TAB ─── -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">pending_actions</mat-icon>
+        Pending
+        @if (pendingRequests.length > 0) {
+          <span class="tab-badge">{{ pendingRequests.length }}</span>
+        }
+      </ng-template>
+
+      @if (pendingRequests.length === 0) {
+        <div class="empty-state">
+          <mat-icon>inbox</mat-icon>
+          <h3>No Pending Requests</h3>
+          <p>All freelancer policy applications have been reviewed.</p>
+        </div>
+      } @else {
+        <div class="request-list">
+          @for (req of pendingRequests; track req.id) {
+            <mat-card class="request-card pending-card">
+              <!-- Card Header -->
+              <div class="card-header">
+                <div class="card-header-left">
+                  <span class="type-badge" [class.badge-equipment]="req.type === 'EQUIPMENT'" [class.badge-income]="req.type === 'INCOME'">
+                    <mat-icon>{{ req.type === 'EQUIPMENT' ? 'devices' : 'account_balance_wallet' }}</mat-icon>
+                    {{ req.type === 'EQUIPMENT' ? 'Equipment' : 'Income Assurance' }}
+                  </span>
+                  <span class="status-badge status-pending">PENDING REVIEW</span>
+                </div>
+                <span class="submitted-at">Submitted {{ req.submittedAt | date:'MMM d, y, h:mm a' }}</span>
+              </div>
+
+              <mat-divider></mat-divider>
+
+              <!-- Freelancer Info -->
+              <div class="info-section">
+                <div class="info-row">
+                  <mat-icon class="info-icon">person</mat-icon>
+                  <div>
+                    <span class="info-label">Freelancer</span>
+                    <span class="info-value">{{ req.freelancerName }}</span>
+                    <span class="info-sub">{{ req.freelancerEmail }}</span>
+                  </div>
+                </div>
+
+                <!-- Equipment specific details -->
+                @if (req.type === 'EQUIPMENT') {
+                  <div class="info-row">
+                    <mat-icon class="info-icon">work</mat-icon>
+                    <div>
+                      <span class="info-label">Project</span>
+                      <span class="info-value">{{ asEquipment(req).projectName }}</span>
+                      <span class="info-sub">Client: {{ asEquipment(req).clientName }}
+                        @if (asEquipment(req).clientCompanyName) { — {{ asEquipment(req).clientCompanyName }} }
+                      </span>
+                    </div>
+                  </div>
+                  <div class="info-row">
+                    <mat-icon class="info-icon">devices</mat-icon>
+                    <div>
+                      <span class="info-label">Equipment ({{ asEquipment(req).equipmentList?.length }} items)</span>
+                      <span class="info-value">Total Declared Value: <strong>{{ getEquipmentTotalValue(req) | currency:'USD':'symbol':'1.0-0' }}</strong></span>
+                      <span class="info-sub">{{ asEquipment(req).startDate }} → {{ asEquipment(req).endDate }} | {{ asEquipment(req).location }}</span>
+                    </div>
+                  </div>
+                  <div class="equipment-items">
+                    @for (item of asEquipment(req).equipmentList; track item.serialNumber) {
+                      <div class="eq-item-chip">
+                        <strong>{{ item.brand }} {{ item.model }}</strong>
+                        <span>{{ item.equipmentType }}</span>
+                        <span class="eq-value">{{ item.declaredValue | currency:'USD':'symbol':'1.0-0' }}</span>
+                        <span class="eq-condition">{{ item.condition }}</span>
+                      </div>
+                    }
+                  </div>
+                }
+
+                <!-- Income specific details -->
+                @if (req.type === 'INCOME') {
+                  <div class="info-row">
+                    <mat-icon class="info-icon">work_history</mat-icon>
+                    <div>
+                      <span class="info-label">Profession</span>
+                      <span class="info-value">{{ asIncome(req).profession }}</span>
+                      <span class="info-sub">{{ asIncome(req).experienceYears }} years experience</span>
+                    </div>
+                  </div>
+                  <div class="info-row">
+                    <mat-icon class="info-icon">payments</mat-icon>
+                    <div>
+                      <span class="info-label">Income Details</span>
+                      <span class="info-value">Avg Monthly Income: <strong>{{ asIncome(req).averageMonthlyIncome | currency:'USD':'symbol':'1.0-0' }}</strong></span>
+                      <span class="info-sub">
+                        Requested Benefit: {{ asIncome(req).requestedMonthlyBenefit | currency:'USD':'symbol':'1.0-0' }}/mo
+                        for {{ asIncome(req).benefitPeriodMonths }} months
+                      </span>
+                    </div>
+                  </div>
+                  <div class="covered-events">
+                    @for (evt of asIncome(req).coveredEventTypes; track evt) {
+                      <span class="event-chip">{{ evt }}</span>
+                    }
+                  </div>
+                }
+              </div>
+
+              <!-- Quote Section -->
+              @if (req.quoteData && req.showQuote) {
+                <div class="quote-panel">
+                  <div class="quote-panel-header">
+                    <mat-icon>analytics</mat-icon>
+                    <strong>Risk Engine Quote</strong>
+                    <button mat-icon-button (click)="toggleQuote(req)" matTooltip="Hide quote">
+                      <mat-icon>keyboard_arrow_up</mat-icon>
+                    </button>
+                  </div>
+                  @if (req.type === 'EQUIPMENT') {
+                    <div class="quote-breakdown">
+                      <div class="qb-row"><span>Total Insured Value</span><strong>{{ asEquipmentQuote(req.quoteData).totalInsuredValue | currencyFormat }}</strong></div>
+                      <div class="qb-row"><span>Base Premium</span><span>{{ asEquipmentQuote(req.quoteData).basePremium | currencyFormat }}</span></div>
+                      <div class="qb-row"><span>Risk Adjustment</span><span>+{{ asEquipmentQuote(req.quoteData).riskAdjustment | currencyFormat }}</span></div>
+                      <div class="qb-row"><span>Deductible Discount</span><span>-{{ asEquipmentQuote(req.quoteData).deductibleDiscount | currencyFormat }}</span></div>
+                      <div class="qb-row"><span>Tax</span><span>{{ asEquipmentQuote(req.quoteData).taxAmount | currencyFormat }}</span></div>
+                      <div class="qb-row total-row"><span>Total Payable</span><strong>{{ asEquipmentQuote(req.quoteData).totalPayable | currencyFormat }}</strong></div>
+                    </div>
+                  } @else {
+                    <div class="quote-breakdown">
+                      <div class="qb-row"><span>Monthly Benefit</span><strong>{{ asIncomeQuote(req.quoteData).monthlyBenefit | currencyFormat }}/mo</strong></div>
+                      <div class="qb-row"><span>Max Potential Benefit</span><span>{{ asIncomeQuote(req.quoteData).maxPotentialBenefit | currencyFormat }}</span></div>
+                      <div class="qb-row"><span>Annual Base Premium</span><span>{{ asIncomeQuote(req.quoteData).annualBasePremium | currencyFormat }}</span></div>
+                      <div class="qb-row"><span>Risk Adjustment</span><span>+{{ asIncomeQuote(req.quoteData).riskAdjustment | currencyFormat }}</span></div>
+                      <div class="qb-row"><span>Tax</span><span>{{ asIncomeQuote(req.quoteData).taxAmount | currencyFormat }}</span></div>
+                      <div class="qb-row total-row"><span>Total Annual Payable</span><strong>{{ asIncomeQuote(req.quoteData).totalPayable | currencyFormat }}</strong></div>
+                    </div>
+                    @if (asIncomeQuote(req.quoteData).underwritingNote) {
+                      <div class="uw-note">
+                        <mat-icon>info</mat-icon>
+                        {{ asIncomeQuote(req.quoteData).underwritingNote }}
+                      </div>
+                    }
+                  }
+                </div>
+              } @else if (req.quoteData && !req.showQuote) {
+                <div class="quote-collapsed">
+                  <button mat-button color="primary" (click)="toggleQuote(req)">
+                    <mat-icon>analytics</mat-icon> View Risk Quote
+                  </button>
+                </div>
+              }
+
+              <!-- Disapprove Input -->
+              @if (req.showDisapproveInput) {
+                <div class="disapprove-input-area">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Reason for Disapproval</mat-label>
+                    <textarea matInput [(ngModel)]="req.disapproveNote" rows="2"
+                      placeholder="e.g. Insufficient risk documentation, coverage limit exceeded..."></textarea>
+                  </mat-form-field>
+                  <div class="disapprove-actions">
+                    <button mat-button (click)="toggleDisapproveInput(req)">Cancel</button>
+                    <button mat-raised-button color="warn" (click)="disapproveRequest(req)">
+                      <mat-icon>cancel</mat-icon> Confirm Disapproval
+                    </button>
+                  </div>
+                </div>
+              }
+
+              <!-- Action Buttons (hidden while entering disapproval reason) -->
+              @if (!req.showDisapproveInput) {
+                <div class="card-actions">
+                  <!-- Get Quote button -->
+                  @if (!req.quoteData) {
+                    <button mat-stroked-button color="primary" (click)="getQuote(req)" [disabled]="req.isLoadingQuote">
+                      @if (req.isLoadingQuote) {
+                        <mat-spinner diameter="18"></mat-spinner> Fetching Quote...
+                      } @else {
+                        <ng-container>
+                          <mat-icon>calculate</mat-icon> Get Risk Quote
+                        </ng-container>
+                      }
+                    </button>
+                  } @else {
+                    <button mat-stroked-button color="primary" (click)="getQuote(req)" [disabled]="req.isLoadingQuote" matTooltip="Recalculate quote">
+                      @if (req.isLoadingQuote) {
+                        <mat-spinner diameter="18"></mat-spinner>
+                      } @else {
+                        <mat-icon>refresh</mat-icon>
+                      }
+                      Recalculate
+                    </button>
+                  }
+
+                  <!-- Approve button -->
+                  <button mat-raised-button color="primary" (click)="approveRequest(req)"
+                    [disabled]="req.isProcessing || !req.quoteData"
+                    [matTooltip]="!req.quoteData ? 'Get risk quote first before approving' : 'Approve and issue policy'">
+                    @if (req.isProcessing) {
+                      <mat-spinner diameter="18"></mat-spinner> Issuing...
+                    } @else {
+                      <ng-container>
+                        <mat-icon>check_circle</mat-icon> Approve &amp; Issue Policy
+                      </ng-container>
+                    }
+                  </button>
+
+                  <!-- Disapprove button -->
+                  <button mat-stroked-button color="warn" (click)="toggleDisapproveInput(req)" [disabled]="req.isProcessing">
+                    <mat-icon>cancel</mat-icon> Disapprove
+                  </button>
+                </div>
+              }
+            </mat-card>
+          }
+        </div>
+      }
+    </mat-tab>
+
+    <!-- ─── APPROVED TAB ─── -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">check_circle</mat-icon>
+        Approved
+        @if (approvedRequests.length > 0) {
+          <span class="tab-badge badge-green">{{ approvedRequests.length }}</span>
+        }
+      </ng-template>
+
+      @if (approvedRequests.length === 0) {
+        <div class="empty-state">
+          <mat-icon>verified</mat-icon>
+          <h3>No Approved Requests Yet</h3>
+          <p>Approved policies will appear here once you review pending applications.</p>
+        </div>
+      } @else {
+        <div class="request-list">
+          @for (req of approvedRequests; track req.id) {
+            <mat-card class="request-card approved-card">
+              <div class="card-header">
+                <div class="card-header-left">
+                  <span class="type-badge" [class.badge-equipment]="req.type === 'EQUIPMENT'" [class.badge-income]="req.type === 'INCOME'">
+                    <mat-icon>{{ req.type === 'EQUIPMENT' ? 'devices' : 'account_balance_wallet' }}</mat-icon>
+                    {{ req.type === 'EQUIPMENT' ? 'Equipment' : 'Income Assurance' }}
+                  </span>
+                  <span class="status-badge status-approved">APPROVED</span>
+                </div>
+                <span class="submitted-at">Reviewed {{ req.reviewedAt | date:'MMM d, y' }}</span>
+              </div>
+              <div class="approved-summary">
+                <div class="approved-person">
+                  <mat-icon>person</mat-icon>
+                  <div>
+                    <strong>{{ req.freelancerName }}</strong>
+                    <span>{{ req.freelancerEmail }}</span>
+                  </div>
+                </div>
+                <div class="policy-number-badge">
+                  <mat-icon>policy</mat-icon>
+                  <span>Policy: <strong>{{ req.issuedPolicyNumber }}</strong></span>
+                </div>
+              </div>
+            </mat-card>
+          }
+        </div>
+      }
+    </mat-tab>
+
+    <!-- ─── DISAPPROVED TAB ─── -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">cancel</mat-icon>
+        Disapproved
+        @if (disapprovedRequests.length > 0) {
+          <span class="tab-badge badge-red">{{ disapprovedRequests.length }}</span>
+        }
+      </ng-template>
+
+      @if (disapprovedRequests.length === 0) {
+        <div class="empty-state">
+          <mat-icon>thumb_up</mat-icon>
+          <h3>No Disapproved Requests</h3>
+          <p>All reviewed applications have been approved.</p>
+        </div>
+      } @else {
+        <div class="request-list">
+          @for (req of disapprovedRequests; track req.id) {
+            <mat-card class="request-card disapproved-card">
+              <div class="card-header">
+                <div class="card-header-left">
+                  <span class="type-badge" [class.badge-equipment]="req.type === 'EQUIPMENT'" [class.badge-income]="req.type === 'INCOME'">
+                    <mat-icon>{{ req.type === 'EQUIPMENT' ? 'devices' : 'account_balance_wallet' }}</mat-icon>
+                    {{ req.type === 'EQUIPMENT' ? 'Equipment' : 'Income Assurance' }}
+                  </span>
+                  <span class="status-badge status-disapproved">DISAPPROVED</span>
+                </div>
+                <span class="submitted-at">Reviewed {{ req.reviewedAt | date:'MMM d, y' }}</span>
+              </div>
+              <div class="approved-summary">
+                <div class="approved-person">
+                  <mat-icon>person</mat-icon>
+                  <div>
+                    <strong>{{ req.freelancerName }}</strong>
+                    <span>{{ req.freelancerEmail }}</span>
+                  </div>
+                </div>
+                @if (req.reviewNote) {
+                  <div class="disapprove-reason">
+                    <mat-icon>notes</mat-icon>
+                    <span>{{ req.reviewNote }}</span>
+                  </div>
+                }
+              </div>
+            </mat-card>
+          }
+        </div>
+      }
+    </mat-tab>
+
+  </mat-tab-group>
+</div>

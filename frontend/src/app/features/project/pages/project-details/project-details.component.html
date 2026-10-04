@@ -1,0 +1,414 @@
+<div class="project-details-container">
+  <!-- Loading State -->
+  @if (isLoading) {
+    <div class="loading-state">
+      <mat-spinner diameter="48"></mat-spinner>
+      <p>Loading project workspace...</p>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (errorMessage && !isLoading) {
+    <div class="error-banner">
+      <mat-icon>error</mat-icon>
+      <div class="error-text">
+        <strong>Error Loading Project</strong>
+        <span>{{ errorMessage }}</span>
+      </div>
+      <button mat-stroked-button color="warn" (click)="loadProjectDetails()">Retry</button>
+    </div>
+  }
+
+  <!-- Main Content -->
+  @if (project && !isLoading) {
+    <!-- Breadcrumb & Top Bar -->
+    <div class="top-nav">
+      <button mat-button routerLink="/projects" class="back-link">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back to Projects</span>
+      </button>
+      <div class="top-actions">
+        <button mat-icon-button (click)="loadProjectDetails()" matTooltip="Refresh details">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Project Header Banner -->
+    <header class="project-header-card">
+      <div class="header-main-info">
+        <div class="badge-title-row">
+          <span class="status-badge" [ngClass]="getStatusClass(project.status)">
+            {{ project.status }}
+          </span>
+          @if (project.policyNumber) {
+            <span class="policy-chip">
+              <mat-icon>verified_user</mat-icon>
+              Policy #{{ project.policyNumber }}
+            </span>
+          }
+        </div>
+        <h1 class="project-title">{{ project.projectName }}</h1>
+        <p class="project-desc">{{ project.description || 'No detailed scope description provided.' }}</p>
+        
+        <div class="header-meta-row">
+          <span class="meta-item">
+            <mat-icon>business</mat-icon>
+            {{ project.client?.name || 'Direct Client' }} 
+            @if (project.client?.companyName) {
+              ({{ project.client?.companyName }})
+            }
+          </span>
+          <span class="meta-item">
+            <mat-icon>place</mat-icon>
+            {{ project.location || 'Remote / Unspecified' }}
+          </span>
+          <span class="meta-item">
+            <mat-icon>date_range</mat-icon>
+            {{ project.startDate | date:'mediumDate' }} &rarr; {{ project.expectedEndDate | date:'mediumDate' }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Action Buttons Row -->
+      @if (canManage) {
+        <div class="header-action-toolbar">
+          <button mat-stroked-button color="primary" (click)="openAgreementDialog()">
+            <mat-icon>description</mat-icon>
+            <span>{{ project.agreement ? 'Review Agreement' : 'Analyze Agreement' }}</span>
+          </button>
+          <button mat-stroked-button color="primary" (click)="openAddEquipmentDialog()">
+            <mat-icon>add_circle_outline</mat-icon>
+            <span>Add Equipment</span>
+          </button>
+          <button
+            mat-stroked-button
+            color="accent"
+            (click)="openHandoverDialog()"
+            [disabled]="!project.equipmentList || project.equipmentList.length === 0"
+          >
+            <mat-icon>transfer_within_a_station</mat-icon>
+            <span>Record Handover</span>
+          </button>
+          <button
+            mat-stroked-button
+            (click)="openReturnEquipmentDialog()"
+            [disabled]="!project.handoverCompleted"
+          >
+            <mat-icon>assignment_return</mat-icon>
+            <span>Process Return</span>
+          </button>
+        </div>
+      }
+    </header>
+
+    <!-- Key Metrics Grid -->
+    <div class="metrics-grid">
+      <!-- Client Information Card -->
+      <mat-card class="metric-card">
+        <mat-card-header>
+          <div mat-card-avatar class="avatar-icon client-icon">
+            <mat-icon>person</mat-icon>
+          </div>
+          <mat-card-title>Client & Sponsor</mat-card-title>
+          <mat-card-subtitle>{{ project.client?.name || 'Client Details' }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="metric-body">
+          <div class="info-row">
+            <span class="info-label">Company:</span>
+            <span class="info-val">{{ project.client?.companyName || 'Individual' }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Email:</span>
+            <span class="info-val">
+              <a [href]="'mailto:' + project.client?.email">{{ project.client?.email || 'N/A' }}</a>
+            </span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Phone:</span>
+            <span class="info-val">{{ project.client?.phone || 'N/A' }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Custody & Handover Status -->
+      <mat-card class="metric-card">
+        <mat-card-header>
+          <div mat-card-avatar class="avatar-icon custody-icon">
+            <mat-icon>shield</mat-icon>
+          </div>
+          <mat-card-title>Custody & Chain of Care</mat-card-title>
+          <mat-card-subtitle>Gear Verification</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="metric-body">
+          <div class="info-row">
+            <span class="info-label">Handover State:</span>
+            <span class="info-val">
+              @if (project.handoverCompleted) {
+                <span class="status-pill pill-success">Verified Handover</span>
+              } @else {
+                <span class="status-pill pill-warning">Pending Handover</span>
+              }
+            </span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Handover Date:</span>
+            <span class="info-val">{{ (project.handoverDate | date:'mediumDate') || 'Not Recorded' }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Return Inspection:</span>
+            <span class="info-val">
+              @if (project.returnCompleted) {
+                <span class="status-pill pill-success">Returned & Inspected</span>
+              } @else {
+                <span class="status-pill pill-muted">Not Returned</span>
+              }
+            </span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Equipment Asset Value -->
+      <mat-card class="metric-card">
+        <mat-card-header>
+          <div mat-card-avatar class="avatar-icon gear-icon">
+            <mat-icon>photo_camera</mat-icon>
+          </div>
+          <mat-card-title>Equipment Exposure</mat-card-title>
+          <mat-card-subtitle>Insured Hardware</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="metric-body">
+          <div class="info-row">
+            <span class="info-label">Active Units:</span>
+            <span class="info-val font-semibold">{{ project.equipmentList?.length || 0 }} items</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Total Declared Value:</span>
+            <span class="info-val val-highlight">{{ calculateTotalEquipmentValue() | currency:'USD':'symbol':'1.0-0' }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Coverage Status:</span>
+            <span class="info-val">
+              @if (project.status === ProjectStatus.INSURED) {
+                <span class="status-pill pill-success">Active Policy</span>
+              } @else {
+                <span class="status-pill pill-warning">Uninsured</span>
+              }
+            </span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Agreement & Liability Analysis Section -->
+    <mat-card class="section-card">
+      <mat-card-header class="section-header">
+        <div class="section-title-wrap">
+          <mat-icon class="section-icon">gavel</mat-icon>
+          <div>
+            <mat-card-title>Contract & Liability Analysis</mat-card-title>
+            <mat-card-subtitle>AI-powered liability clause extraction from service agreement</mat-card-subtitle>
+          </div>
+        </div>
+        @if (canManage) {
+          <button mat-stroked-button color="primary" (click)="openAgreementDialog()">
+            <mat-icon>upload_file</mat-icon>
+            <span>{{ project.agreement ? 'Re-analyze Contract' : 'Upload Agreement' }}</span>
+          </button>
+        }
+      </mat-card-header>
+
+      <mat-card-content class="section-content">
+        @if (project.agreement) {
+          <div class="agreement-details-grid">
+            <div class="agreement-stat">
+              <span class="stat-label">Document Name</span>
+              <span class="stat-value">{{ project.agreement.documentName }}</span>
+            </div>
+            <div class="agreement-stat">
+              <span class="stat-label">Client Equipment Clause</span>
+              <span class="stat-value">
+                @if (project.agreement.clientEquipmentDetected) {
+                  <span class="status-pill pill-warning">Detected</span>
+                } @else {
+                  <span class="status-pill pill-muted">None Detected</span>
+                }
+              </span>
+            </div>
+            <div class="agreement-stat">
+              <span class="stat-label">Freelancer Liable</span>
+              <span class="stat-value">
+                @if (project.agreement.freelancerLiable) {
+                  <span class="status-pill pill-danger">High Liability</span>
+                } @else {
+                  <span class="status-pill pill-success">Standard Terms</span>
+                }
+              </span>
+            </div>
+            <div class="agreement-stat">
+              <span class="stat-label">Review Status</span>
+              <span class="stat-value">
+                <span class="status-pill pill-success">{{ project.agreement.reviewStatus || 'Analyzed' }}</span>
+              </span>
+            </div>
+          </div>
+
+          @if (project.agreement.extractedLiabilityText) {
+            <div class="liability-clause-box">
+              <div class="clause-header">
+                <mat-icon>format_quote</mat-icon>
+                <span>Extracted Liability Clause</span>
+              </div>
+              <blockquote class="clause-text">
+                "{{ project.agreement.extractedLiabilityText }}"
+              </blockquote>
+              @if (project.agreement.liabilityScope) {
+                <div class="clause-scope">
+                  <strong>Scope Summary:</strong> {{ project.agreement.liabilityScope }}
+                </div>
+              }
+            </div>
+          }
+        } @else {
+          <div class="empty-section">
+            <mat-icon class="empty-icon">note_add</mat-icon>
+            <h3>No Agreement Analyzed Yet</h3>
+            <p>Upload or paste your client engagement contract to automatically detect equipment liability clauses, indemnification exposure, and coverage needs.</p>
+            @if (canManage) {
+              <button mat-raised-button color="primary" (click)="openAgreementDialog()">
+                <mat-icon>upload_file</mat-icon>
+                Upload & Analyze Agreement
+              </button>
+            }
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Equipment Inventory Table Section -->
+    <mat-card class="section-card">
+      <mat-card-header class="section-header">
+        <div class="section-title-wrap">
+          <mat-icon class="section-icon">inventory_2</mat-icon>
+          <div>
+            <mat-card-title>Project Equipment Inventory</mat-card-title>
+            <mat-card-subtitle>Registered professional hardware under project custody</mat-card-subtitle>
+          </div>
+        </div>
+        @if (canManage) {
+          <button mat-raised-button color="primary" (click)="openAddEquipmentDialog()">
+            <mat-icon>add</mat-icon>
+            <span>Add Equipment</span>
+          </button>
+        }
+      </mat-card-header>
+
+      <mat-card-content class="section-content p-0">
+        @if (project.equipmentList && project.equipmentList.length > 0) {
+          <div class="table-responsive">
+            <table mat-table [dataSource]="project.equipmentList" class="equipment-table">
+              <!-- Type Column -->
+              <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef>Category</th>
+                <td mat-cell *matCellDef="let eq">
+                  <span class="category-chip">{{ eq.equipmentType }}</span>
+                </td>
+              </ng-container>
+
+              <!-- Details Column -->
+              <ng-container matColumnDef="details">
+                <th mat-header-cell *matHeaderCellDef>Equipment</th>
+                <td mat-cell *matCellDef="let eq">
+                  <div class="gear-detail-cell">
+                    <strong>{{ eq.brand }} {{ eq.model }}</strong>
+                    @if (eq.ownerName) {
+                      <span class="owner-tag">Owner: {{ eq.ownerName }}</span>
+                    }
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Serial Number Column -->
+              <ng-container matColumnDef="serialNumber">
+                <th mat-header-cell *matHeaderCellDef>Serial No.</th>
+                <td mat-cell *matCellDef="let eq">
+                  <code>{{ eq.serialNumber }}</code>
+                </td>
+              </ng-container>
+
+              <!-- Value Column -->
+              <ng-container matColumnDef="declaredValue">
+                <th mat-header-cell *matHeaderCellDef>Declared Value</th>
+                <td mat-cell *matCellDef="let eq">
+                  <span class="value-text">{{ eq.declaredValue | currency:'USD':'symbol':'1.0-0' }}</span>
+                </td>
+              </ng-container>
+
+              <!-- Condition Column -->
+              <ng-container matColumnDef="condition">
+                <th mat-header-cell *matHeaderCellDef>Condition</th>
+                <td mat-cell *matCellDef="let eq">
+                  <span class="condition-badge" [ngClass]="'cond-' + (eq.condition || 'GOOD').toLowerCase()">
+                    {{ eq.condition }}
+                  </span>
+                </td>
+              </ng-container>
+
+              <!-- Status Column -->
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>Custody Status</th>
+                <td mat-cell *matCellDef="let eq">
+                  @if (eq.returned) {
+                    <span class="status-pill pill-success">Returned</span>
+                  } @else if (eq.handedOver) {
+                    <span class="status-pill pill-info">In Custody</span>
+                  } @else {
+                    <span class="status-pill pill-muted">Registered</span>
+                  }
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedEquipmentColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedEquipmentColumns"></tr>
+            </table>
+          </div>
+        } @else {
+          <div class="empty-section">
+            <mat-icon class="empty-icon">devices_other</mat-icon>
+            <h3>No Equipment Registered</h3>
+            <p>Add client-provided or professional equipment to track serial numbers, condition records, and secure liability coverage.</p>
+            @if (canManage) {
+              <button mat-stroked-button color="primary" (click)="openAddEquipmentDialog()">
+                <mat-icon>add</mat-icon>
+                Register First Item
+              </button>
+            }
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Policies & Risk Action Banner -->
+    <mat-card class="policy-action-banner">
+      <div class="banner-content">
+        <mat-icon class="banner-icon">security</mat-icon>
+        <div class="banner-text">
+          <h3>Insurance Protection for this Project</h3>
+          <p>
+            Protect against client equipment loss, property damage, and milestone income interruptions.
+          </p>
+        </div>
+      </div>
+      <div class="banner-actions">
+        <button mat-raised-button color="primary" routerLink="/policies/equipment">
+          <mat-icon>shield</mat-icon>
+          Get Equipment Policy
+        </button>
+        <button mat-stroked-button routerLink="/policies/income">
+          <mat-icon>attach_money</mat-icon>
+          Income Protection
+        </button>
+      </div>
+    </mat-card>
+  }
+</div>

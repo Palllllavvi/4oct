@@ -1,0 +1,354 @@
+<div class="landing-page">
+  <!-- 
+   ─── HERO SECTION ─── -->
+  <!-- <section class="hero-section">
+    <div class="hero-bg-glow glow-1"></div>
+    <div class="hero-bg-glow glow-2"></div>
+    
+    <div class="hero-container">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <mat-icon>shield</mat-icon>
+        <span>Next-Gen Autonomous Insurance for Freelancers</span>
+      </div>
+
+      <h1 class="hero-title">
+        High-Value Gear & Income Protection <br/>
+        <span class="gradient-text">Engineered for Independent Creators</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Eliminate custody liability when clients hand you expensive equipment. Guarantee your monthly cashflow against client default, breach, or insolvency with instant AI risk underwriting.
+      </p>
+
+      <div class="hero-cta-group">
+        @if (isLoggedIn) {
+          <a mat-flat-button color="primary" routerLink="/dashboard" class="cta-primary-btn">
+            <mat-icon>dashboard</mat-icon> Go to Dashboard
+          </a>
+          <a mat-stroked-button (click)="scrollToSection('calculator')" class="cta-secondary-btn">
+            <mat-icon>calculate</mat-icon> Estimate Premium
+          </a>
+        } @else {
+          <a mat-flat-button color="primary" routerLink="/register" class="cta-primary-btn">
+            <mat-icon>rocket_launch</mat-icon> Get Started Free
+          </a>
+          <a mat-stroked-button routerLink="/login" class="cta-secondary-btn">
+            <mat-icon>login</mat-icon> Sign In
+          </a>
+          <button mat-button (click)="scrollToSection('features')" class="cta-link-btn">
+            <mat-icon>arrow_downward</mat-icon> Explore Coverage
+          </button>
+        }
+      </div>
+
+      <!-- Hero Trust Metrics Bar -->
+  <!-- <div class="hero-metrics-bar">
+        <div class="metric-card">
+          <span class="metric-val">₹10Cr+</span>
+          <span class="metric-lbl">High-Value Gear Insured</span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-card">
+          <span class="metric-val">100%</span>
+          <span class="metric-lbl">Digital Custody Verification</span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-card">
+          <span class="metric-val">&lt; 15 Mins</span>
+          <span class="metric-lbl">Underwriter Quote Issuance</span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-card">
+          <span class="metric-val">24-48 Hrs</span>
+          <span class="metric-lbl">Accelerated Claim Payout</span>
+        </div>
+      </div>
+    </div>
+  </section>  -->
+
+
+  <!-- ─── INTERACTIVE ESTIMATOR ───
+  <section id="calculator" class="calculator-section">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="pill-badge">Transparent Pricing</span>
+        <h2>Instant Coverage Estimator</h2>
+        <p>Preview your estimated daily or annual rates powered by our actuarial risk model</p>
+      </div>
+
+      <div class="calc-card">
+        <div class="calc-tabs">
+          <button [class.active]="selectedCalculatorTab === 'equipment'" (click)="selectedCalculatorTab = 'equipment'">
+            <mat-icon>devices</mat-icon> Client Equipment Custody
+          </button>
+          <button [class.active]="selectedCalculatorTab === 'income'" (click)="selectedCalculatorTab = 'income'">
+            <mat-icon>payments</mat-icon> Income Assurance Protection
+          </button>
+        </div>
+
+        <div class="calc-body">
+          @if (selectedCalculatorTab === 'equipment') {
+            <div class="calc-form">
+              <div class="calc-input-group">
+                <label>Total Declared Gear Value</label>
+                <div class="range-display">
+                  <span>₹{{ equipmentValue | number }}</span>
+                </div>
+                <input type="range" min="50000" max="2000000" step="25000" [(ngModel)]="equipmentValue" class="custom-slider" />
+                <div class="slider-ticks">
+                  <span>₹50K (Laptops)</span>
+                  <span>₹5L (Cinematography)</span>
+                  <span>₹20L+ (Full Production)</span>
+                </div>
+              </div>
+
+              <div class="calc-preview-card">
+                <span class="preview-title">Estimated 14-Day Project Premium</span>
+                <span class="preview-amount">₹{{ estimatedEquipmentPremium | number }}</span>
+                <span class="preview-note">Includes 18% GST • Deductible: ₹1,000 • Zero Client Liability</span>
+                <a mat-flat-button color="primary" [routerLink]="isLoggedIn ? '/projects' : '/login'" class="calc-action-btn">
+                  Apply via My Projects <mat-icon>arrow_forward</mat-icon>
+                </a>
+              </div>
+            </div>
+          } @else {
+            <div class="calc-form">
+              <div class="calc-input-group">
+                <label>Average Monthly Freelance Income</label>
+                <div class="range-display">
+                  <span>₹{{ monthlyIncome | number }} / month</span>
+                </div>
+                <input type="range" min="25000" max="300000" step="10000" [(ngModel)]="monthlyIncome" class="custom-slider" />
+                <div class="slider-ticks">
+                  <span>₹25,000</span>
+                  <span>₹1,50,000</span>
+                  <span>₹3,00,000+</span>
+                </div>
+              </div>
+
+              <div class="calc-preview-card">
+                <span class="preview-title">Estimated Annual Assurance Premium</span>
+                <span class="preview-amount">₹{{ estimatedIncomePremium | number }} / year</span>
+                <span class="preview-note">Up to 6 months full payout • Covers client insolvency, breach & illness</span>
+                <a mat-flat-button color="accent" [routerLink]="isLoggedIn ? '/policies/income/issue' : '/login'" class="calc-action-btn">
+                  Explore Income Plans <mat-icon>arrow_forward</mat-icon>
+                </a>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CORE COVERAGES ─── -->
+  <!-- <section id="features" class="features-section">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="pill-badge">Comprehensive Solutions</span>
+        <h2>Two Pillars of Freelancer Freedom</h2>
+        <p>Targeted protection built specifically for modern gig economy demands</p>
+      </div>
+
+      <!-- Equipment Feature Row -->
+  <div class="pillar-box">
+    <div class="pillar-info">
+      <div class="pillar-badge badge-equip">
+        <mat-icon>camera</mat-icon> Coverage Pillar 01
+      </div>
+      <h3>Client Equipment Custody Coverage</h3>
+      <p>
+        When a creative agency, client, or event production company lends you RED/Sony cameras, DJI drones, audio
+        mixers, or Apple workstations, standard personal insurance refuses coverage because the gear belongs to a third
+        party.
+      </p>
+      <ul class="pillar-benefits">
+        <li><mat-icon>check_circle</mat-icon> Covers accidental physical drops, spills, and impact fractures</li>
+        <li><mat-icon>check_circle</mat-icon> Digital hand-over custody evidence prevents client liability disputes</li>
+        <li><mat-icon>check_circle</mat-icon> Project-duration specific (pay strictly for shoot and editing days)</li>
+      </ul>
+    </div>
+    <div class="pillar-cards-grid">
+      @for (item of equipmentFeatures; track item.title) {
+      <div class="feature-card">
+        <div class="feature-icon-wrapper">
+          <mat-icon>{{ item.icon }}</mat-icon>
+        </div>
+        <h4>{{ item.title }}</h4>
+        <p>{{ item.description }}</p>
+        <div class="tag-list">
+          @for (t of item.tags; track t) {
+          <span class="tag-pill">{{ t }}</span>
+          }
+        </div>
+      </div>
+      }
+    </div>
+  </div> -->
+
+  <!-- Income Feature Row -->
+  <!-- <div class="pillar-box reverse">
+        <div class="pillar-info">
+          <div class="pillar-badge badge-inc">
+            <mat-icon>shield_with_heart</mat-icon> Coverage Pillar 02
+          </div>
+          <h3>Freelancer Income Assurance</h3>
+          <p>
+            Never suffer from sudden project cancellation, client liquidation, or unexpected personal emergencies. Secure predictable financial stability regardless of market fluctuations.
+          </p>
+          <ul class="pillar-benefits">
+            <li><mat-icon>check_circle</mat-icon> Guaranteed monthly stipend when a client files for insolvency</li>
+            <li><mat-icon>check_circle</mat-icon> Up to 6 months income safety net during major scope disputes</li>
+            <li><mat-icon>check_circle</mat-icon> Minimal paperwork with smart contract and invoice upload proof</li>
+          </ul>
+        </div>
+        <div class="pillar-cards-grid">
+          @for (item of incomeFeatures; track item.title) {
+            <div class="feature-card income-feature-card">
+              <div class="feature-icon-wrapper icon-income">
+                <mat-icon>{{ item.icon }}</mat-icon>
+              </div>
+              <h4>{{ item.title }}</h4>
+              <p>{{ item.description }}</p>
+              <div class="tag-list">
+                @for (t of item.tags; track t) {
+                  <span class="tag-pill tag-income">{{ t }}</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+    </div>
+  </section>  -->
+
+  <!-- ─── HOW IT WORKS (WORKFLOW) ─── -->
+  <!-- <section class="workflow-section">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="pill-badge">Transparent Process</span>
+        <h2>How FreelanceShield Works</h2>
+        <p>A seamless end-to-end lifecycle from project kickoff to claim resolution</p>
+      </div>
+
+      <div class="workflow-grid">
+        @for (wf of workflowSteps; track wf.step) {
+          <div class="workflow-card">
+            <div class="wf-top">
+              <span class="wf-number">{{ wf.step }}</span>
+              <span class="wf-role-badge">{{ wf.badge }}</span>
+            </div>
+            <div class="wf-icon-box">
+              <mat-icon>{{ wf.icon }}</mat-icon>
+            </div>
+            <h4>{{ wf.title }}</h4>
+            <p>{{ wf.description }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section> -->
+
+  <!-- ─── ROLE ECOSYSTEM ─── -->
+  <!-- <section class="ecosystem-section">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="pill-badge">Built For Stakeholders</span>
+        <h2>Integrated Role Portals</h2>
+        <p>Designed to align freelancers, certified underwriters, and claim assessors</p>
+      </div>
+
+      <div class="roles-grid">
+        <div class="role-card role-freelancer">
+          <div class="role-icon"><mat-icon>badge</mat-icon></div>
+          <h3>Freelancer Portal</h3>
+          <p>Create projects, log client gear, apply for coverage directly with a single click, and view live policy status.</p>
+          <div class="role-actions">
+            <a mat-button color="primary" [routerLink]="isLoggedIn ? '/projects' : '/login'">
+              Project Management <mat-icon>chevron_right</mat-icon>
+            </a>
+          </div>
+        </div>
+
+        <div class="role-card role-underwriter">
+          <div class="role-icon"><mat-icon>analytics</mat-icon></div>
+          <h3>Underwriter Console</h3>
+          <p>Access the Risk Engine, evaluate dynamic peril adjustments, review project exposure, and issue or disapprove policies.</p>
+          <div class="role-actions">
+            <a mat-button color="primary" [routerLink]="isLoggedIn ? '/policies/underwriter-requests' : '/login'">
+              Application Queue <mat-icon>chevron_right</mat-icon>
+            </a>
+          </div>
+        </div>
+
+        <div class="role-card role-assessor">
+          <div class="role-icon"><mat-icon>verified</mat-icon></div>
+          <h3>Claims Assessor Suite</h3>
+          <p>Review incident evidence, inspect equipment condition handovers, adjust deductible calculations, and authorize settlements.</p>
+          <div class="role-actions">
+            <a mat-button color="primary" [routerLink]="isLoggedIn ? '/claims' : '/login'">
+              Review Claims <mat-icon>chevron_right</mat-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- ─── FAQS ─── -->
+  <section class="faq-section">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="pill-badge">Common Questions</span>
+        <h2>Frequently Asked Questions</h2>
+        <p>Everything you need to know about our coverage terms, claims, and underwriting</p>
+      </div>
+
+      <div class="faq-wrapper">
+        <mat-accordion multi="false">
+          @for (faq of faqs; track faq.question) {
+          <mat-expansion-panel class="custom-expansion-panel">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon class="faq-q-icon">help_outline</mat-icon>
+                <strong>{{ faq.question }}</strong>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p class="faq-answer">{{ faq.answer }}</p>
+          </mat-expansion-panel>
+          }
+        </mat-accordion>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CALL TO ACTION BANNER ─── -->
+  <section class="cta-banner-section">
+    <div class="section-container">
+      <div class="cta-banner-box">
+        <div class="cta-content">
+          <h2>Ready to Shield Your Next Project?</h2>
+          <p>Join hundreds of independent photographers, filmmakers, drone pilots, and developers working fearlessly.
+          </p>
+          <div class="cta-btn-wrapper">
+            @if (isLoggedIn) {
+            <a mat-flat-button color="primary" routerLink="/dashboard" class="cta-big-btn">
+              <mat-icon>dashboard</mat-icon> Go to Dashboard
+            </a>
+            } @else {
+            <a mat-flat-button color="primary" routerLink="/register" class="cta-big-btn">
+              <mat-icon>verified_user</mat-icon> Create Free Account
+            </a>
+            <a mat-stroked-button routerLink="/login" class="cta-big-btn-stroked">
+              <mat-icon>login</mat-icon> Sign In
+            </a>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

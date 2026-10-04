@@ -1,0 +1,190 @@
+<div class="policy-page-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-titles">
+      <h1 class="page-title">Income Assurance Policies</h1>
+      <p class="page-subtitle">Protect freelancers against client insolvencies, contract breaches, and medical disability</p>
+    </div>
+    <div class="header-actions">
+      @if (canIssuePolicy) {
+        <a mat-raised-button color="primary" routerLink="/policies/income/issue" class="action-btn">
+          <mat-icon>add_moderator</mat-icon>
+          <span>Issue Income Policy</span>
+        </a>
+      }
+    </div>
+  </div>
+
+  <!-- KPI Metrics Cards -->
+  <div class="kpi-grid">
+    <mat-card class="kpi-card">
+      <div class="kpi-icon-wrap icon-blue">
+        <mat-icon>volunteer_activism</mat-icon>
+      </div>
+      <div class="kpi-details">
+        <span class="kpi-label">Active Policies</span>
+        <span class="kpi-value">{{ totalPolicies }}</span>
+      </div>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <div class="kpi-icon-wrap icon-green">
+        <mat-icon>monetization_on</mat-icon>
+      </div>
+      <div class="kpi-details">
+        <span class="kpi-label">Total Benefit Reserve</span>
+        <span class="kpi-value">{{ totalBenefitsCommitted | currency:'USD':'symbol':'1.0-0' }}</span>
+      </div>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <div class="kpi-icon-wrap icon-purple">
+        <mat-icon>price_check</mat-icon>
+      </div>
+      <div class="kpi-details">
+        <span class="kpi-label">Annual Gross Premium</span>
+        <span class="kpi-value">{{ totalAnnualPremiums | currency:'USD':'symbol':'1.0-0' }}</span>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- Table Wrapper Component -->
+  <app-data-table-wrapper
+    title="Income Policies"
+    subtitle="All underwritten freelancer income safety net policies"
+    [loading]="isLoading"
+    [errorMessage]="errorMessage"
+    (searchChanged)="applyFilter($event)"
+    (refreshClicked)="loadPolicies()"
+  >
+    <div table-actions>
+      <a mat-button routerLink="/policies/equipment">&larr; Switch to Equipment Policies</a>
+    </div>
+
+    <!-- Table -->
+    <table mat-table [dataSource]="dataSource" matSort class="policy-table">
+      <!-- Policy Number Column -->
+      <ng-container matColumnDef="policyNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Policy #</th>
+        <td mat-cell *matCellDef="let policy">
+          <div class="policy-num-cell">
+            <mat-icon class="policy-icon">shield</mat-icon>
+            <code>{{ policy.policyNumber }}</code>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Freelancer Column -->
+      <ng-container matColumnDef="freelancer">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Freelancer</th>
+        <td mat-cell *matCellDef="let policy">
+          <div class="freelancer-cell">
+            <strong>{{ policy.freelancerName || 'User #' + policy.userId }}</strong>
+            <span class="sub-text">{{ policy.freelancerEmail || 'User ID: ' + policy.userId }}</span>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Monthly Income Column -->
+      <ng-container matColumnDef="monthlyIncome">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Monthly Income</th>
+        <td mat-cell *matCellDef="let policy">
+          <span>{{ policy.monthlyIncome | currency:'USD':'symbol':'1.0-0' }}/mo</span>
+        </td>
+      </ng-container>
+
+      <!-- Benefit Period Column -->
+      <ng-container matColumnDef="benefitMonths">
+        <th mat-header-cell *matHeaderCellDef>Benefit Window</th>
+        <td mat-cell *matCellDef="let policy">
+          <span class="period-pill">{{ policy.benefitMonths }} Months</span>
+        </td>
+      </ng-container>
+
+      <!-- Total Benefit Column -->
+      <ng-container matColumnDef="totalBenefit">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Max Total Benefit</th>
+        <td mat-cell *matCellDef="let policy">
+          <span class="val-bold">{{ policy.totalBenefit | currency:'USD':'symbol':'1.0-0' }}</span>
+        </td>
+      </ng-container>
+
+      <!-- Annual Premium Column -->
+      <ng-container matColumnDef="annualPremium">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Annual Premium</th>
+        <td mat-cell *matCellDef="let policy">
+          <span class="premium-text">{{ policy.annualPremium | currency:'USD':'symbol':'1.0-2' }}</span>
+        </td>
+      </ng-container>
+
+      <!-- Dates Column -->
+      <ng-container matColumnDef="dates">
+        <th mat-header-cell *matHeaderCellDef>Policy Year</th>
+        <td mat-cell *matCellDef="let policy">
+          <span class="dates-text">
+            {{ policy.startDate | date:'shortDate' }} - {{ policy.endDate | date:'shortDate' }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let policy">
+          <span class="status-badge" [ngClass]="getStatusClass(policy.status)">
+            {{ policy.status }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let policy">
+          @if (policy.status === 'ACTIVE' && canFileClaim) {
+            <a
+              mat-stroked-button
+              color="warn"
+              class="claim-action-btn"
+              [routerLink]="['/claims/income/submit']"
+              [queryParams]="{ policyNumber: policy.policyNumber, monthlyIncome: policy.monthlyIncome }"
+              matTooltip="File an income protection claim against this active policy"
+            >
+              <mat-icon>report_problem</mat-icon>
+              <span>Claim</span>
+            </a>
+          } @else if (policy.status === 'CLAIMED') {
+            <span class="claimed-badge">
+              <mat-icon>check_circle</mat-icon>
+              <span>Claimed</span>
+            </span>
+          } @else {
+            <span class="text-muted">—</span>
+          }
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+          @if (!isLoading) {
+            <app-empty-state
+              icon="volunteer_activism"
+              title="No Income Policies Found"
+              description="No income assurance policies match your filter or are registered yet."
+              [actionLabel]="canIssuePolicy ? 'Issue First Income Policy' : undefined"
+              actionIcon="add_moderator"
+              (actionClicked)="canIssuePolicy && null"
+            ></app-empty-state>
+          }
+        </td>
+      </tr>
+    </table>
+
+    <div table-footer>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons aria-label="Select page of income policies"></mat-paginator>
+    </div>
+  </app-data-table-wrapper>
+</div>

@@ -1,0 +1,59 @@
+<div class="dashboard-root-container">
+  <!-- Perspective Switcher (Visible to Admins) -->
+  @if (currentUser?.role === roles.ROLE_ADMIN) {
+    <div class="admin-perspective-banner">
+      <div class="perspective-label">
+        <mat-icon class="preview-icon">visibility</mat-icon>
+        <span>Admin View Mode:</span>
+      </div>
+      <div class="perspective-actions">
+        <button
+          mat-button
+          [class.active-mode]="isFreelancer()"
+          (click)="switchRoleView(roles.ROLE_FREELANCER)"
+          class="mode-btn"
+        >
+          Freelancer
+        </button>
+        <button
+          mat-button
+          [class.active-mode]="isUnderwriter()"
+          (click)="switchRoleView(roles.ROLE_UNDERWRITER)"
+          class="mode-btn"
+        >
+          Underwriter
+        </button>
+        <button
+          mat-button
+          [class.active-mode]="isAssessor()"
+          (click)="switchRoleView(roles.ROLE_ASSESSOR)"
+          class="mode-btn"
+        >
+          Assessor
+        </button>
+        <button
+          mat-button
+          [class.active-mode]="isAdmin()"
+          (click)="switchRoleView(roles.ROLE_ADMIN)"
+          class="mode-btn"
+        >
+          Admin (Full)
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- Dynamic Role Dashboards -->
+  @if (isFreelancer()) {
+    <app-freelancer-dashboard></app-freelancer-dashboard>
+  } @else if (isUnderwriter()) {
+    <app-underwriter-dashboard></app-underwriter-dashboard>
+  } @else if (isAssessor()) {
+    <app-assessor-dashboard></app-assessor-dashboard>
+  } @else if (isAdmin()) {
+    <app-admin-dashboard></app-admin-dashboard>
+  } @else {
+    <!-- Fallback if role is unfamiliar or default -->
+    <app-freelancer-dashboard></app-freelancer-dashboard>
+  }
+</div>

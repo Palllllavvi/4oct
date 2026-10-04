@@ -1,0 +1,97 @@
+<h2 mat-dialog-title class="dialog-header">
+  <mat-icon class="header-icon">assignment_return</mat-icon>
+  <span>Process Equipment Return</span>
+</h2>
+
+<mat-dialog-content class="dialog-body">
+  <p class="dialog-intro">
+    Inspect and verify return conditions for all project equipment. Document damage or irregularities to ensure clean policy resolution and custody release.
+  </p>
+
+  @if (errorMessage) {
+    <div class="dialog-error-banner">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ errorMessage }}</span>
+    </div>
+  }
+
+  <form [formGroup]="returnForm" class="dialog-form" novalidate>
+    <!-- Return Date -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Return Inspection Date</mat-label>
+      <input matInput type="date" formControlName="returnDate" />
+      <mat-icon matPrefix>event_available</mat-icon>
+      @if (returnForm.get('returnDate')?.touched && returnForm.get('returnDate')?.invalid) {
+        <mat-error>Return date is required</mat-error>
+      }
+    </mat-form-field>
+
+    <div class="equipment-section-title">
+      <mat-icon>fact_check</mat-icon>
+      <span>Items to Return ({{ itemsFormArray.length }})</span>
+    </div>
+
+    @if (itemsFormArray.length === 0) {
+      <div class="empty-items-notice">
+        <mat-icon>info</mat-icon>
+        <span>No equipment assigned to this project to return.</span>
+      </div>
+    }
+
+    <div formArrayName="items" class="items-list">
+      @for (itemGroup of itemsFormArray.controls; track $index) {
+        <div [formGroupName]="$index" class="item-card">
+          <div class="item-header">
+            <span class="item-name">{{ itemGroup.get('equipmentName')?.value }}</span>
+            <span class="item-index">#{{ $index + 1 }}</span>
+          </div>
+
+          <div class="two-col-row">
+            <!-- Return Condition -->
+            <mat-form-field appearance="outline" class="w-half">
+              <mat-label>Condition on Return</mat-label>
+              <mat-select formControlName="returnCondition">
+                @for (cond of conditions; track cond.value) {
+                  <mat-option [value]="cond.value">{{ cond.label }}</mat-option>
+                }
+              </mat-select>
+              <mat-icon matPrefix>verified</mat-icon>
+            </mat-form-field>
+
+            <!-- Notes -->
+            <mat-form-field appearance="outline" class="w-half">
+              <mat-label>Return Notes / Damage Log</mat-label>
+              <input matInput formControlName="returnNotes" placeholder="e.g. Returned clean, no functional issues" />
+              <mat-icon matPrefix>note_alt</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <!-- Client Return Confirmation -->
+          <div class="confirmations-row">
+            <mat-checkbox formControlName="clientConfirmedReturn" color="primary">
+              Client Confirmed Return & Receipt
+            </mat-checkbox>
+          </div>
+        </div>
+      }
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-button mat-dialog-close [disabled]="isSaving">Cancel</button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="onSubmit()"
+    [disabled]="isSaving || returnForm.invalid || itemsFormArray.length === 0"
+    class="submit-btn"
+  >
+    @if (isSaving) {
+      <mat-spinner diameter="18" class="spinner-inline"></mat-spinner>
+    } @else {
+      <mat-icon>task_alt</mat-icon>
+    }
+    <span>{{ isSaving ? 'Processing Return...' : 'Complete Return' }}</span>
+  </button>
+</mat-dialog-actions>

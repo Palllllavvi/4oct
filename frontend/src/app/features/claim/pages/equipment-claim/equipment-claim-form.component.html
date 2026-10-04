@@ -1,0 +1,152 @@
+<div class="claim-form-container">
+  <div class="top-nav">
+    <a mat-button routerLink="/claims" class="back-link">
+      <mat-icon>arrow_back</mat-icon>
+      <span>Back to Claims</span>
+    </a>
+  </div>
+
+  <mat-card class="form-card">
+    <mat-card-header class="card-header">
+      <div class="header-icon-wrap icon-amber">
+        <mat-icon>report_problem</mat-icon>
+      </div>
+      <div>
+        <mat-card-title>File Equipment Damage / Loss Claim</mat-card-title>
+        <mat-card-subtitle>Report an insured gear incident for assessor investigation and settlement</mat-card-subtitle>
+      </div>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content class="card-body">
+      @if (errorMessage) {
+        <div class="error-banner">
+          <mat-icon>error_outline</mat-icon>
+          <span>{{ errorMessage }}</span>
+        </div>
+      }
+
+      <form [formGroup]="claimForm" (ngSubmit)="onSubmit()" class="claim-form" novalidate>
+        <!-- Policy & Asset Reference -->
+        <h3 class="section-title">
+          <mat-icon>policy</mat-icon>
+          <span>Policy & Gear Reference</span>
+        </h3>
+
+        <div class="two-col-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Policy Number</mat-label>
+            <input matInput formControlName="policyNumber" placeholder="e.g. EQ-2026-000124" />
+            <mat-icon matPrefix>verified_user</mat-icon>
+            @if (claimForm.get('policyNumber')?.touched && claimForm.get('policyNumber')?.invalid) {
+              <mat-error>Policy number is required</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Equipment / Model Involved</mat-label>
+            <input matInput formControlName="equipmentName" placeholder="e.g. Sony A7S III Camera Body" />
+            <mat-icon matPrefix>photo_camera</mat-icon>
+            @if (claimForm.get('equipmentName')?.touched && claimForm.get('equipmentName')?.invalid) {
+              <mat-error>Equipment name is required</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <!-- Incident Details -->
+        <h3 class="section-title">
+          <mat-icon>event_note</mat-icon>
+          <span>Incident Particulars</span>
+        </h3>
+
+        <div class="two-col-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Incident Cause / Peril</mat-label>
+            <mat-select formControlName="incidentType">
+              @for (type of incidentTypes; track type.value) {
+                <mat-option [value]="type.value">{{ type.label }}</mat-option>
+              }
+            </mat-select>
+            <mat-icon matPrefix>category</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Incident Date</mat-label>
+            <input matInput type="date" formControlName="incidentDate" />
+            <mat-icon matPrefix>calendar_today</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Incident Location / Address</mat-label>
+          <input matInput formControlName="incidentLocation" placeholder="e.g. Studio 4B, Brooklyn Navy Yard, NY" />
+          <mat-icon matPrefix>place</mat-icon>
+          @if (claimForm.get('incidentLocation')?.touched && claimForm.get('incidentLocation')?.invalid) {
+            <mat-error>Incident location is required</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Detailed Description of Incident</mat-label>
+          <textarea
+            matInput
+            formControlName="incidentDescription"
+            rows="4"
+            placeholder="Describe exactly how the damage or loss occurred, circumstances, and immediate actions taken..."
+          ></textarea>
+          @if (claimForm.get('incidentDescription')?.touched && claimForm.get('incidentDescription')?.invalid) {
+            <mat-error>Please provide at least 20 characters describing the event</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="two-col-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Estimated Repair / Replacement Cost ($ USD)</mat-label>
+            <input matInput type="number" formControlName="claimedAmount" min="1" placeholder="2500" />
+            <mat-icon matPrefix>attach_money</mat-icon>
+            @if (claimForm.get('claimedAmount')?.touched && claimForm.get('claimedAmount')?.invalid) {
+              <mat-error>Valid claim amount is required</mat-error>
+            }
+          </mat-form-field>
+
+          <div class="police-report-toggle">
+            <label class="toggle-label">Filed Police Report for Theft/Loss?</label>
+            <mat-radio-group formControlName="reportingPolice" class="radio-row">
+              <mat-radio-button value="NO" color="primary">No</mat-radio-button>
+              <mat-radio-button value="YES" color="primary">Yes (Official Report)</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        @if (claimForm.get('reportingPolice')?.value === 'YES') {
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Police Station & Case Report Number</mat-label>
+            <input matInput formControlName="policeReportNumber" placeholder="e.g. NYPD 78th Precinct Case #2026-9041" />
+            <mat-icon matPrefix>local_police</mat-icon>
+          </mat-form-field>
+        }
+
+        <!-- Evidence & Documents -->
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Document Evidence References / Photo URLs</mat-label>
+          <input matInput formControlName="documentRefs" placeholder="e.g. receipt_sn89472.pdf, repair_quote_camera_repair_co.pdf" />
+          <mat-icon matPrefix>attach_file</mat-icon>
+          <mat-hint>Provide comma-separated filenames or cloud document references</mat-hint>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <a mat-button routerLink="/claims" [disabled]="isSubmitting">Cancel</a>
+          <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting || claimForm.invalid" class="submit-btn">
+            @if (isSubmitting) {
+              <mat-spinner diameter="20" class="spinner-inline"></mat-spinner>
+            } @else {
+              <mat-icon>send</mat-icon>
+            }
+            <span>{{ isSubmitting ? 'Submitting Claim...' : 'File Equipment Claim' }}</span>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

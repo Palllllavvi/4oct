@@ -1,0 +1,77 @@
+<h2 mat-dialog-title class="dialog-header">
+  <mat-icon class="header-icon">description</mat-icon>
+  <span>Upload & Analyze Agreement</span>
+</h2>
+
+<mat-dialog-content class="dialog-body">
+  <p class="dialog-intro">
+    Paste your client engagement contract or upload a text agreement file. The backend will parse the text and extract client equipment clauses and liability terms automatically.
+  </p>
+
+  @if (errorMessage) {
+    <div class="dialog-error-banner">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ errorMessage }}</span>
+    </div>
+  }
+
+  <form [formGroup]="agreementForm" class="dialog-form" novalidate>
+    <!-- Document Name -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Agreement Name / Title</mat-label>
+      <input matInput formControlName="documentName" placeholder="e.g. Master Services Agreement v2.1" />
+      <mat-icon matPrefix>edit_document</mat-icon>
+      @if (f['documentName'].touched && f['documentName'].errors) {
+        <mat-error>Document name is required</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- File Picker Quick Helper -->
+    <div class="file-picker-row">
+      <label for="fileUploadInput" class="custom-file-label">
+        <mat-icon>upload_file</mat-icon>
+        <span>Choose file (.txt / .md)</span>
+      </label>
+      <input
+        id="fileUploadInput"
+        type="file"
+        (change)="onFileSelected($event)"
+        accept=".txt,.md,.json"
+        class="hidden-file-input"
+      />
+      <span class="file-hint">Or paste agreement text directly below</span>
+    </div>
+
+    <!-- Contract Text -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Agreement Content / Liability Clauses</mat-label>
+      <textarea
+        matInput
+        formControlName="documentText"
+        rows="8"
+        placeholder="Paste full contract or section containing liability, custody, and equipment terms..."
+      ></textarea>
+      @if (f['documentText'].touched && f['documentText'].errors) {
+        <mat-error>Please provide agreement text (at least 20 characters)</mat-error>
+      }
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-button mat-dialog-close [disabled]="isProcessing">Cancel</button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="onSubmit()"
+    [disabled]="isProcessing || agreementForm.invalid"
+    class="process-btn"
+  >
+    @if (isProcessing) {
+      <mat-spinner diameter="18" class="spinner-inline"></mat-spinner>
+    } @else {
+      <mat-icon>smart_toy</mat-icon>
+    }
+    <span>{{ isProcessing ? 'Analyzing Clauses...' : 'Analyze Agreement' }}</span>
+  </button>
+</mat-dialog-actions>
