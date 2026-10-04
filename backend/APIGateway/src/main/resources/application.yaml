@@ -1,0 +1,46 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: API-GATEWAY
+
+  cloud:
+    gateway:
+      routes:
+
+        - id: auth-service
+          uri: lb://AUTHUSER-SERVICE
+          predicates:
+            - Path=/api/auth/**,/api/users/**
+
+        - id: policy-service
+          uri: lb://POLICY-SERVICE
+          predicates:
+            - Path=/api/policies/**
+
+        - id: project-service
+          uri: lb://PROJECTEQUIPMENT-SERVICE
+          predicates:
+            - Path=/api/projects/**
+
+        - id: claim-service
+          uri: lb://CLAIM-SERVICE
+          predicates:
+            - Path=/api/claims/**
+
+        - id: risk-service
+          uri: lb://RISKUNDERWRITING-SERVICE
+          predicates:
+            - Path=/api/risk/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
